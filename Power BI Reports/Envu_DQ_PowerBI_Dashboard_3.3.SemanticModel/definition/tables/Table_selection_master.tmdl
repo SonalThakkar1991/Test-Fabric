@@ -1,0 +1,97 @@
+table Table_selection_master
+	lineageTag: bef20585-804a-4be5-ba9f-4946d2a5163c
+
+	column Table_Name
+		dataType: string
+		lineageTag: 3e57f898-5150-457e-ba44-804ed6770299
+		summarizeBy: none
+		sourceColumn: Table_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		lineageTag: e31dfc03-304d-488a-b4b9-3479eebecbbe
+		summarizeBy: none
+		sourceColumn: Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column Table_Type
+		dataType: string
+		lineageTag: 921e0612-cf0b-4a03-88b5-fde44bb5bcfb
+		summarizeBy: none
+		sourceColumn: Table_Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column Selected
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: ac52b48d-d5a0-48c3-901e-118de372903d
+		summarizeBy: none
+		sourceColumn: Selected
+
+		annotation SummarizationSetBy = Automatic
+
+	column Suggested_Table_Name
+		dataType: string
+		lineageTag: ad5a651e-b70e-41a9-b0df-b60e5f412dcc
+		summarizeBy: none
+		sourceColumn: Suggested_Table_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column SourceSystem
+		dataType: string
+		lineageTag: 0c24ead1-5433-4ba1-bcf3-0dad3edd6b77
+		summarizeBy: none
+		sourceColumn: SourceSystem
+
+		annotation SummarizationSetBy = Automatic
+
+	column GUID
+		dataType: string
+		lineageTag: 59cb9ab0-be63-4659-9eb2-78f18f6ceb9b
+		summarizeBy: none
+		sourceColumn: GUID
+
+		annotation SummarizationSetBy = Automatic
+
+	column classifications
+		dataType: int64
+		formatString: 0
+		lineageTag: 60feb7a8-0943-4b48-9e09-2881a4a49b85
+		summarizeBy: sum
+		sourceColumn: classifications
+
+		annotation SummarizationSetBy = Automatic
+
+	column cde
+		dataType: int64
+		formatString: 0
+		lineageTag: 8338bfeb-8c42-4eb5-add7-efa97bbd9b6f
+		summarizeBy: sum
+		sourceColumn: cde
+
+		annotation SummarizationSetBy = Automatic
+
+	column glossary
+		dataType: int64
+		formatString: 0
+		lineageTag: d32b4b55-8437-4b9a-8351-f891c4faff99
+		summarizeBy: sum
+		sourceColumn: glossary
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Table_selection_master = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Databases("3klz7u5s3oqebfsrqkpjercbge-azvq6kmwg4uethky6vrp2c76zu.datawarehouse.fabric.microsoft.com"),
+				    MDM_Bronze_Layer = Source{[Name="MDM_Bronze_Layer"]}[Data],
+				    D365_table_selection_master = MDM_Bronze_Layer{[Schema="D365",Item="table_selection_master"]}[Data]
+				in
+				    D365_table_selection_master
+

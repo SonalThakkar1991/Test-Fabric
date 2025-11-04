@@ -1,0 +1,380 @@
+table Measaure
+	lineageTag: b8f6df2c-ce4e-43cb-81a8-35b150fc6aba
+
+	measure 'Total Membership' =
+			
+			--VAR SelectedMonth = SELECTEDVALUE(Silver_Membership_V1[Join Date Month], MONTH(TODAY()))  -- 2
+			--VAR SelectedYear = SELECTEDVALUE(Silver_Membership_V1[Join Date year], YEAR(TODAY()))
+			
+			--VAR CurrentMonth =
+			   -- CALCULATE(
+			        --DISTINCTCOUNT(Silver_Membership_V1[cst_cst_key]),
+			        --FILTER(
+			            --Silver_Membership_V1,
+			          --  MONTH(Silver_Membership_V1[mbr_join_date]) = SelectedMonth &&
+			            --YEAR(Silver_Membership_V1[mbr_join_date]) = SelectedYear
+			       -- )
+			   -- )
+			
+			 DISTINCTCOUNT(Membership_dashboard_data[cst_cst_key])
+		formatString: 0
+		lineageTag: c518251e-530d-47cc-82c6-104a5f766600
+
+	measure 'Total Active Membership' = CALCULATE(DISTINCTCOUNT(Silver_Membership_V1[cst_cst_key]),Silver_Membership_V1[Membership_status] = "Active")
+		formatString: 0
+		lineageTag: eb3a4d0f-21f0-47ff-8eb3-e721a4c3028b
+
+	measure 'Total New Membership' = ```
+			
+			VAR SelectedMonth =
+			    SELECTEDVALUE(Membership_dashboard_data[ReportMonth], MONTH(TODAY()))  -- Month number from slicer (e.g., 5 for May)
+			VAR SelectedYear = SELECTEDVALUE(Membership_dashboard_data[ReportYear], YEAR(TODAY()))
+			
+			VAR StartDate =
+			    DATE(SelectedYear, SelectedMonth, 7)
+			
+			VAR EndDate =
+			    DATE(SelectedYear, SelectedMonth + 1, 6)
+			
+			RETURN
+			    CALCULATE(
+			        DISTINCTCOUNT('Membership_dashboard_data'[cst_cst_key]),
+			        'Membership_dashboard_data'[mbr_join_date] >= StartDate &&
+			        'Membership_dashboard_data'[mbr_join_date] <= EndDate,
+			        'Membership_dashboard_data'[mbr_invoice_date] >= StartDate &&
+			        'Membership_dashboard_data'[mbr_invoice_date] <= EndDate,
+			        'Membership_dashboard_data'[cst_cst_member_flag] = 1,
+			        ISBLANK('Membership_dashboard_data'[mbr_terminate_date]),
+			        'Membership_dashboard_data'[mbr_expire_date] > DATE(SelectedYear, SelectedMonth, 31),
+			        'Membership_dashboard_data'[inv_delete_flag] = 0,
+			       'Membership_dashboard_data'[mxi_delete_flag] = 0,
+			       ISBLANK(Membership_dashboard_data[ret_key]
+			        
+			    ))
+			```
+		formatString: 0
+		lineageTag: c540ac9a-c9b5-49a9-ae72-ebbe96eed868
+
+	measure 'Total Renew Membership' = ```
+			
+			VAR SelectedMonth =
+			    SELECTEDVALUE(Membership_dashboard_data[ReportMonth], MONTH(TODAY()))  -- Month number from slicer (e.g., 5 for May)
+			VAR SelectedYear = SELECTEDVALUE(Membership_dashboard_data[ReportYear], YEAR(TODAY())) -- e.g., 5 for May
+			VAR InvoiceStartDate = DATE(SelectedYear, SelectedMonth, 7)
+			VAR InvoiceEndDate = DATE(SelectedYear, SelectedMonth + 1, 6)
+			VAR JoinCutoffDate = DATE(SelectedYear, SelectedMonth + 1, 1)   -- 6/1/2025 for May
+			VAR ExpireCutoffDate = DATE(SelectedYear, SelectedMonth, 31)    -- 5/31/2025 for May
+			VAR MXITermStartCutoff = DATE(SelectedYear, SelectedMonth + 1, 1)   -- 6/1/2025
+			VAR MXIPreviousTermEndCutoff = DATE(SelectedYear, SelectedMonth, 31)  -- 5/31/2025
+			
+			RETURN
+			    CALCULATE(
+			        DISTINCTCOUNT('Membership_dashboard_data'[cst_cst_key]),
+			        'Membership_dashboard_data'[mbr_join_date] < JoinCutoffDate,
+			       'Membership_dashboard_data'[mbr_invoice_date] >= InvoiceStartDate,
+			       'Membership_dashboard_data'[mbr_invoice_date] <= InvoiceEndDate,
+			       'Membership_dashboard_data'[cst_cst_member_flag] = 1,
+			        ISBLANK('Membership_dashboard_data'[mbr_terminate_date]),
+			        'Membership_dashboard_data'[mbr_expire_date] > ExpireCutoffDate,
+			      'Membership_dashboard_data'[mxi_term_start_date] >= MXITermStartCutoff,
+			       'Membership_dashboard_data'[mxi_previous_term_end_date] >= MXIPreviousTermEndCutoff,
+			      ISBLANK('Membership_dashboard_data'[ret_key])
+			    )
+			
+			```
+		formatString: 0
+		lineageTag: eaf84974-8d76-42e8-afa6-3133e253f2ba
+
+	measure 'Max Area Employee' =
+			SUMX(
+			    SUMMARIZE(
+			        INVENTVALUEREPORTVIEW,
+			        INVENTVALUEREPORTVIEW[INVENTLOCATIONID],INVENTVALUEREPORTVIEW[INVENTSITEID],INVENTVALUEREPORTVIEW[CONFIGID],INVENTVALUEREPORTVIEW[INVENTBATCHID],INVENTVALUEREPORTVIEW[WMSLOCATIONID],INVENTVALUEREPORTVIEW[INVENTSTATUSID],
+			        "AverageUnit", SUMX(
+			    VALUES(INVENTVALUEREPORTVIEW[AverageUnit]),
+			    INVENTVALUEREPORTVIEW[AverageUnit])
+			    ),
+			    [AverageUnit]
+			)
+			--CALCULATE(VALUES(client_dw_customer_profile[area_employed]),COUNT(Membership[mbr_key])=COUNT(max(Membership[mbr_key]))
+		lineageTag: 6d6ac665-03e6-4097-a562-56b86b315f27
+
+	measure 'Total Expired' = CALCULATE(DISTINCTCOUNT(Membership[mbr_key]),client_dw_customer_profile[membership_status] = "Lapsed")
+		formatString: 0
+		lineageTag: 973e29f2-17e6-48f3-82c0-4a64f1a0739a
+
+	measure 'Masked Email' = ```
+			
+			VAR FullEmail = [email_address]
+			VAR AtPosition = FIND("@", FullEmail, 1)
+			VAR NamePart = LEFT(FullEmail, AtPosition - 1)
+			VAR DomainPart = MID(FullEmail, AtPosition, LEN(FullEmail) - AtPosition + 1)
+			VAR MaskedName = 
+			    IF(
+			        LEN(NamePart) > 5, 
+			        LEFT(NamePart, 5) & REPT("*", LEN(NamePart) - 5), 
+			        NamePart
+			    )
+			RETURN
+			MaskedName & DomainPart
+			```
+		lineageTag: 6756742f-37a8-47a2-ae94-53c299f2eaa5
+
+	measure 'New Members Updated' = ```
+			
+			VAR SelectedMonth =
+			    SELECTEDVALUE('Silver_Membership'[Join Date Month])  -- Month number from slicer (e.g., 5 for May)
+			
+			VAR StartDate =
+			    DATE(2025, SelectedMonth, 7)
+			
+			VAR EndDate =
+			    DATE(2025, SelectedMonth + 1, 6)
+			
+			RETURN
+			    CALCULATE(
+			        DISTINCTCOUNT('Silver_Membership'[cst_cst_key]),
+			        'Silver_Membership'[mbr_join_date] >= StartDate &&
+			        'Silver_Membership'[mbr_join_date] <= EndDate,
+			        'Silver_Membership'[mbr_invoice_date] >= StartDate &&
+			        'Silver_Membership'[mbr_invoice_date] <= EndDate,
+			        'Silver_Membership'[mbr_expire_date] > DATE(2025, SelectedMonth, 31),
+			        'Silver_Membership'[cst_cst_member_flag] = 1,
+			        ISBLANK('Silver_Membership'[mbr_terminate_date]),
+			        'Silver_Membership'[inv_delete_flag] = 0,
+			        'Silver_Membership'[mxi_delete_flag] = 0
+			        
+			    )
+			
+			```
+		formatString: 0
+		lineageTag: e18bb7d4-3330-40bf-9e52-77754a9d075b
+
+	measure 'current month Cst_Key' =
+			
+			VAR SelectedMonth = SELECTEDVALUE(Silver_Membership_V1[Join Date Month])  -- 2
+			VAR SelectedYear = 2025  -- fixed year as per your logic
+			
+			
+			var result = CALCULATE(
+			        DISTINCTCOUNT(Silver_Membership_V1[cst_cst_key]),
+			        FILTER(
+			            Silver_Membership_V1,
+			            MONTH(Silver_Membership_V1[mbr_join_date]) = SelectedMonth &&
+			            YEAR(Silver_Membership_V1[mbr_join_date]) = SelectedYear
+			        )
+			    )
+			
+			    RETURN result
+		formatString: 0
+		lineageTag: 970132fe-6aac-402c-b5dd-20c6a8959f65
+
+	measure 'Previous month Cst_Key' =
+			
+			
+			VAR SelectedMonth = SELECTEDVALUE(Silver_Membership_V1[Join Date Month])  -- 2
+			VAR SelectedYear = 2025  -- fixed year as per your logic
+			
+			
+			VAR PrevMonth =
+			    IF(SelectedMonth = 1, 12, SelectedMonth - 1) --1
+			
+			VAR PrevYear =
+			    IF(SelectedMonth = 1, SelectedYear - 1, SelectedYear) --2025
+			
+			
+			
+			var result = CALCULATE(
+			        DISTINCTCOUNT(Silver_Membership_V1[cst_cst_key]),
+			        FILTER(
+			            Silver_Membership_V1,
+			            MONTH(Silver_Membership_V1[mbr_join_date]) = 1 &&
+			            YEAR(Silver_Membership_V1[mbr_join_date]) = 2025
+			        )
+			    )
+			
+			    RETURN result
+		formatString: 0
+		lineageTag: 6fb31709-31f5-4e06-ad4a-34c4b0308c12
+
+	measure 'Total Renew Membership_v1' = ```
+			
+			CALCULATE(
+			    DISTINCTCOUNT(Silver_Membership_V1[cst_cst_key]),
+			    Silver_Membership_V1[mbr_join_date] < DATE(2025, 2, 1),
+			    Silver_Membership_V1[mbr_invoice_date] >= DATE(2025, 1, 7),
+			    Silver_Membership_V1[mbr_invoice_date] <= DATE(2025, 2, 6),
+			    Silver_Membership_V1[cst_cst_member_flag] = 1,
+			    ISBLANK(Silver_Membership_V1[mbr_terminate_date]),
+			    Silver_Membership_V1[mbr_expire_date] > DATE(2025, 1, 31),
+			    Silver_Membership_V1[mxi_term_start_date] >= DATE(2025, 2, 1),
+			    Silver_Membership_V1[mxi_previous_term_end_date] >= DATE(2025, 1, 31),
+			    ISBLANK(Silver_Membership_V1[ret_key])
+			)
+			
+			
+			
+			
+			
+			```
+		formatString: 0
+		lineageTag: 66f7fd36-fe67-4d21-bfbc-4a1f4e9a9787
+
+	measure 'Total Reinstated Membership' =
+			
+			VAR SelectedMonth =
+			    SELECTEDVALUE(Membership_dashboard_data[ReportMonth], MONTH(TODAY()))  -- Month number from slicer (e.g., 5 for May)
+			VAR SelectedYear = SELECTEDVALUE(Membership_dashboard_data[ReportYear], YEAR(TODAY())) -- e.g., 5 for May
+			VAR InvoiceStartDate = DATE(SelectedYear, SelectedMonth, 7)
+			VAR InvoiceEndDate = DATE(SelectedYear, SelectedMonth + 1, 6)
+			VAR JoinCutoffDate = DATE(SelectedYear, SelectedMonth, 7)   -- 6/1/2025 for May
+			VAR ExpireCutoffDate = DATE(SelectedYear, SelectedMonth, 31)    -- 5/31/2025 for May
+			VAR MXITermStartCutoff = DATE(SelectedYear, SelectedMonth, 7)   -- 6/1/2025
+			VAR MXIPreviousTermEndCutoff = DATE(SelectedYear, SelectedMonth, 31)  -- 5/31/2025
+			
+			RETURN
+			    CALCULATE(
+			        DISTINCTCOUNT('Membership_dashboard_data'[cst_cst_key]),
+			        'Membership_dashboard_data'[mbr_join_date] < JoinCutoffDate,
+			       'Membership_dashboard_data'[mbr_invoice_date] >= InvoiceStartDate,
+			       'Membership_dashboard_data'[mbr_invoice_date] <= InvoiceEndDate,
+			       'Membership_dashboard_data'[cst_cst_member_flag] = 1,
+			        ISBLANK('Membership_dashboard_data'[mbr_terminate_date]),
+			        'Membership_dashboard_data'[mbr_expire_date] > ExpireCutoffDate,
+			      'Membership_dashboard_data'[mxi_term_start_date] >= MXITermStartCutoff,
+			       'Membership_dashboard_data'[mxi_previous_term_end_date] < MXIPreviousTermEndCutoff,
+			       'Membership_dashboard_data'[inv_delete_flag] = 0,
+			       'Membership_dashboard_data'[mxi_delete_flag] = 0,
+			      ISBLANK('Membership_dashboard_data'[ret_key])
+			    )
+		formatString: 0
+		lineageTag: cdeb220a-94d4-4a1f-b016-b75eced47914
+
+	measure 'Total Expired Membership' = ```
+			
+			VAR SelectedMonth = 
+			    SELECTEDVALUE(Membership_dashboard_data[Join Date Month], MONTH(TODAY()))
+			VAR SelectedYear = 
+			    SELECTEDVALUE(Membership_dashboard_data[Join Date year], YEAR(TODAY()))
+			
+			-- Define Key Date Variables
+			VAR InvoiceStartDate = DATE(SelectedYear, SelectedMonth, 7)
+			VAR InvoiceEndDate = DATE(SelectedYear, SelectedMonth + 1, 6)
+			VAR JoinCutoffDate = DATE(SelectedYear, SelectedMonth + 1, 6)
+			VAR InvoiceCutoffDate = DATE(SelectedYear, SelectedMonth + 1, 6)
+			VAR ExpireCutoffDate = DATE(SelectedYear, SelectedMonth, 31)
+			VAR MXITermStartCutoff = DATE(SelectedYear, SelectedMonth + 1, 6)
+			VAR MXIPreviousTermEndCutoff = DATE(SelectedYear, SelectedMonth, 31)
+			
+			RETURN
+			CALCULATE(
+			    DISTINCTCOUNT('Membership_dashboard_data'[cst_cst_key]),
+			    
+			    -- First Condition Block (Members before renewal)
+			    
+			        'Membership_dashboard_data'[cst_cst_member_flag] = 0 &&
+			        'Membership_dashboard_data'[mbr_expire_date] = ExpireCutoffDate &&
+			        'Membership_dashboard_data'[mbr_terminate_date] >= ExpireCutoffDate &&
+			        'Membership_dashboard_data'[mxi_delete_flag] = 0 &&
+			        ISBLANK('Membership_dashboard_data'[ret_key]),
+			        'Membership_dashboard_data'[mbr_join_date] < JoinCutoffDate &&
+			        'Membership_dashboard_data'[mbr_invoice_date] > InvoiceCutoffDate &&
+			        'Membership_dashboard_data'[cst_cst_member_flag] = 1 &&
+			        'Membership_dashboard_data'[mbr_expire_date] > ExpireCutoffDate &&
+			        'Membership_dashboard_data'[mxi_term_start_date] > MXITermStartCutoff &&
+			        'Membership_dashboard_data'[mxi_previous_term_end_date] = MXIPreviousTermEndCutoff &&
+			        --NOT ISBLANK('Silver_Membership_V1'[mbr_rejoin_date]) &&
+			        ISBLANK('Membership_dashboard_data'[ret_key])
+			    )
+			
+			```
+		formatString: 0
+		lineageTag: 0a307bcb-edf0-47da-a3bc-770751ca6cdf
+
+	measure 'MoM Change (%)' = ```
+			
+			VAR SelectedMonth = SELECTEDVALUE(Membership_dashboard_data[ReportMonth])
+			VAR SelectedYear = SELECTEDVALUE(Membership_dashboard_data[ReportYear])
+			
+			-- Previous Month & Year Logic
+			VAR PrevMonth = IF(SelectedMonth = 1, 12, SelectedMonth - 1)
+			VAR PrevYear = IF(SelectedMonth = 1, SelectedYear - 1, SelectedYear)
+			
+			-- Current Month Customer Count
+			VAR CurrentMonthCustomer =
+			    CALCULATE(
+			        DISTINCTCOUNT(Membership_dashboard_data[cst_cst_key]),  -- Replace with your actual customer key column
+			        Membership_dashboard_data[ReportMonth] = SelectedMonth &&
+			        Membership_dashboard_data[ReportYear] = SelectedYear
+			    )
+			
+			-- Previous Month Customer Count
+			VAR PreviousMonthCustomer =
+			    CALCULATE(
+			        DISTINCTCOUNT(Membership_dashboard_data[cst_cst_key]),  -- Replace with your actual customer key column
+			        Membership_dashboard_data[ReportMonth] = PrevMonth &&
+			        Membership_dashboard_data[ReportYear] = PrevYear
+			    )
+			
+			-- Final MoM %
+			RETURN
+			    DIVIDE(CurrentMonthCustomer - PreviousMonthCustomer, PreviousMonthCustomer)
+			
+			```
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 427fd4c1-b050-40ea-9629-c1b1f5a1e98e
+
+	measure 'YoY Change (%)' = ```
+			
+			VAR SelectedMonth = SELECTEDVALUE(Membership_dashboard_data[ReportMonth])
+			VAR SelectedYear = SELECTEDVALUE(Membership_dashboard_data[ReportYear])
+			
+			-- Current Year Customer Count
+			VAR CurrentYearCustomer =
+			    CALCULATE(
+			        DISTINCTCOUNT(Membership_dashboard_data[cst_cst_key]),  -- Replace with your actual customer key
+			        Membership_dashboard_data[ReportMonth] = SelectedMonth &&
+			        Membership_dashboard_data[ReportYear] = SelectedYear
+			    )
+			
+			-- Previous Year Customer Count (same month)
+			VAR PreviousYearCustomer =
+			    CALCULATE(
+			        DISTINCTCOUNT(Membership_dashboard_data[cst_cst_key]),  -- Replace with your actual customer key
+			        Membership_dashboard_data[ReportMonth] = SelectedMonth &&
+			        Membership_dashboard_data[ReportYear] = SelectedYear - 1
+			    )
+			
+			-- Final YoY %
+			RETURN
+			    DIVIDE(CurrentYearCustomer - PreviousYearCustomer, PreviousYearCustomer)
+			
+			```
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: d4f278d4-d6d2-4fad-b8c1-58acdedb2fba
+
+	measure '% of renewal Success' = DIVIDE([count of active with renew],[count of active],0)
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 65239a9d-e121-4c00-aa98-2e9e8ca628d6
+
+	column Column1
+		dataType: string
+		lineageTag: af40c8a2-32ca-447c-b73b-1ae4347cdb98
+		summarizeBy: none
+		sourceColumn: Column1
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Measaure = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Exception
+
+	annotation PBI_NavigationStepName = Navigation
+

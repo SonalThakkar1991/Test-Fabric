@@ -1,0 +1,543 @@
+table Membership_dashboard_data
+	lineageTag: 7dcde02d-d7dd-45d1-9a7f-8bd6a986bb8b
+
+	column cst_cst_key
+		dataType: string
+		lineageTag: e9180d15-6b42-43cc-88d5-cd0e274b849b
+		summarizeBy: none
+		sourceColumn: cst_cst_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column cst_cst_recno
+		dataType: int64
+		formatString: 0
+		lineageTag: 4020fc71-10a3-4181-84da-84d1836e10f6
+		summarizeBy: sum
+		sourceColumn: cst_cst_recno
+
+		annotation SummarizationSetBy = Automatic
+
+	column cst_cst_id
+		dataType: string
+		lineageTag: 0b77266d-fb23-4dc1-9284-ad3ee5f1f0b7
+		summarizeBy: none
+		sourceColumn: cst_cst_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column ind_int_code
+		dataType: string
+		lineageTag: 1f4e8702-1d36-4ae3-b90d-ca11ac74a39f
+		summarizeBy: none
+		sourceColumn: ind_int_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column ind_prf_code
+		dataType: string
+		lineageTag: cb35e2c3-022f-4b70-991f-0858446e0df9
+		summarizeBy: none
+		sourceColumn: ind_prf_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column ind_sfx_code
+		dataType: string
+		lineageTag: 97a81e20-435c-490c-8f82-12a11f046740
+		summarizeBy: none
+		sourceColumn: ind_sfx_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column ind_first_name
+		dataType: string
+		lineageTag: 9357c7f6-c3ef-4c64-918f-e853ea524f62
+		summarizeBy: none
+		sourceColumn: ind_first_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column ind_last_name
+		dataType: string
+		lineageTag: 783556b2-1c8f-4c60-92de-3e8aa39152a1
+		summarizeBy: none
+		sourceColumn: ind_last_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column cst_cst_member_flag
+		dataType: int64
+		formatString: 0
+		lineageTag: bc06b78e-5a3a-443a-a76e-7d443a9a828a
+		summarizeBy: sum
+		sourceColumn: cst_cst_member_flag
+
+		annotation SummarizationSetBy = Automatic
+
+	column ind_designation
+		dataType: string
+		lineageTag: 35739d0a-f248-4ba6-8fc9-043d65be04f4
+		summarizeBy: none
+		sourceColumn: ind_designation
+
+		annotation SummarizationSetBy = Automatic
+
+	column ind_age_cp
+		dataType: double
+		lineageTag: 7a96a89b-940c-4904-9bca-8bcc3b3f63ea
+		summarizeBy: sum
+		sourceColumn: ind_age_cp
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ind_dob
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: d2589545-1201-49a1-8368-4e1d87ac9008
+		summarizeBy: none
+		sourceColumn: ind_dob
+
+		variation Variation
+			isDefault
+			relationship: f17f852f-81e6-417c-8040-7abaaacf8ae3
+			defaultHierarchy: LocalDateTable_14116bee-723f-43d5-91d3-b00050c72b0b.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column ind_gender
+		dataType: string
+		lineageTag: 509bdbd1-d6e8-4561-8614-09191d5f1b40
+		summarizeBy: none
+		sourceColumn: ind_gender
+
+		annotation SummarizationSetBy = Automatic
+
+	column ind_ethnicity
+		dataType: string
+		lineageTag: b7ac25b4-ac3d-41c5-8648-1b490b0f8ed8
+		summarizeBy: none
+		sourceColumn: ind_ethnicity
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_years_of_membership
+		dataType: double
+		lineageTag: 4f0c905d-9df8-44fc-a82b-f7c01d892560
+		summarizeBy: sum
+		sourceColumn: total_years_of_membership
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column mbr_join_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 70c6e9c3-c0a5-4d19-8512-07210b2bd6fb
+		summarizeBy: none
+		sourceColumn: mbr_join_date
+
+		variation Variation
+			isDefault
+			relationship: 95bd8504-820c-4053-932d-452de1727bb2
+			defaultHierarchy: LocalDateTable_5b4f7569-e691-4992-b9f7-a7a6ffcf37a9.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column mbr_rejoin_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 81d8ed6c-91c7-4eaf-bd78-188cb176c7ac
+		summarizeBy: none
+		sourceColumn: mbr_rejoin_date
+
+		variation Variation
+			isDefault
+			relationship: 56d86b47-0ea8-4ad2-ba1a-0108570eab43
+			defaultHierarchy: LocalDateTable_dce1e997-bd22-4a74-ab06-51583dd83083.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column mbr_add_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 83b193bf-81f2-49d1-bbc2-0ebcdf340409
+		summarizeBy: none
+		sourceColumn: mbr_add_date
+
+		variation Variation
+			isDefault
+			relationship: 4dea5b9b-962e-4a21-b927-c701aa71de2d
+			defaultHierarchy: LocalDateTable_83041605-179a-4bfb-a0ff-7e64abe8d1b2.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column mbr_expire_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: d7d6a1ce-7eef-46ad-b9d5-1170d952a8a0
+		summarizeBy: none
+		sourceColumn: mbr_expire_date
+
+		variation Variation
+			isDefault
+			relationship: 7ee9adc1-4af4-41db-a412-e92d97c94236
+			defaultHierarchy: LocalDateTable_b30359de-3183-48ef-b51a-0310d3fd1e86.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column mbr_terminate_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 60328d99-328a-4926-af09-0cc2d56451d2
+		summarizeBy: none
+		sourceColumn: mbr_terminate_date
+
+		variation Variation
+			isDefault
+			relationship: 5fc2e48f-1307-4114-acae-e36aa6117c90
+			defaultHierarchy: LocalDateTable_2550e327-de43-4b81-bbcb-874c4187dd45.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column mbr_invoice_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 08bcd3d4-998d-4b0b-ace5-3f1fe2ec1a19
+		summarizeBy: none
+		sourceColumn: mbr_invoice_date
+
+		variation Variation
+			isDefault
+			relationship: 4a772154-6f71-4df5-95c7-bfd020513193
+			defaultHierarchy: LocalDateTable_7976688a-7a50-4fe1-94c0-7bd8e693ff7a.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column ind_highest_nursing_degree_ext
+		dataType: string
+		lineageTag: 7fd88b88-db64-4fd4-808e-bcbe2b5cf1ba
+		summarizeBy: none
+		sourceColumn: ind_highest_nursing_degree_ext
+
+		annotation SummarizationSetBy = Automatic
+
+	column ind_qtly_nurse_segment_ext
+		dataType: string
+		lineageTag: ae680131-0fea-4c9f-81c3-e509c0d1a0f6
+		summarizeBy: none
+		sourceColumn: ind_qtly_nurse_segment_ext
+
+		annotation SummarizationSetBy = Automatic
+
+	column ind_primary_position_ext
+		dataType: string
+		lineageTag: abc77014-8812-425f-b79a-15c3ea79ad9d
+		summarizeBy: none
+		sourceColumn: ind_primary_position_ext
+
+		annotation SummarizationSetBy = Automatic
+
+	column ind_area_employed_ext
+		dataType: string
+		lineageTag: c2750064-5cae-46eb-a47f-521e27c8c579
+		summarizeBy: none
+		sourceColumn: ind_area_employed_ext
+
+		annotation SummarizationSetBy = Automatic
+
+	column ind_years_experience_ccnursing_ext
+		dataType: string
+		lineageTag: 94918d95-cc45-4d46-ac7b-57c623db42f0
+		summarizeBy: none
+		sourceColumn: ind_years_experience_ccnursing_ext
+
+		annotation SummarizationSetBy = Automatic
+
+	column ind_primary_clinical_specialty_ext
+		dataType: string
+		lineageTag: b5b3c4e2-cfde-4f81-b78c-950f9680b018
+		summarizeBy: none
+		sourceColumn: ind_primary_clinical_specialty_ext
+
+		annotation SummarizationSetBy = Automatic
+
+	column ind_nurse_segment_ext
+		dataType: string
+		lineageTag: 1c130af0-c28a-426d-b41a-40a6c528db9b
+		summarizeBy: none
+		sourceColumn: ind_nurse_segment_ext
+
+		annotation SummarizationSetBy = Automatic
+
+	column adr_city
+		dataType: string
+		lineageTag: 3b314292-ca6b-4748-a25a-bb52f92ce61b
+		summarizeBy: none
+		sourceColumn: adr_city
+
+		annotation SummarizationSetBy = Automatic
+
+	column adr_state
+		dataType: string
+		lineageTag: d85add87-14f0-42aa-a42b-939674acfdf2
+		summarizeBy: none
+		sourceColumn: adr_state
+
+		annotation SummarizationSetBy = Automatic
+
+	column adr_country
+		dataType: string
+		lineageTag: e3cc6a38-730c-4169-9c2b-2c15a3abeaf8
+		summarizeBy: none
+		sourceColumn: adr_country
+
+		annotation SummarizationSetBy = Automatic
+
+	column membership_type
+		dataType: string
+		lineageTag: 237a7a4a-c574-4316-9cc9-1bec5e2dd7aa
+		summarizeBy: none
+		sourceColumn: membership_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column inv_delete_flag
+		dataType: int64
+		formatString: 0
+		lineageTag: 919418e5-5f57-463e-8f1a-3c621e79514c
+		summarizeBy: sum
+		sourceColumn: inv_delete_flag
+
+		annotation SummarizationSetBy = Automatic
+
+	column mxi_delete_flag
+		dataType: int64
+		formatString: 0
+		lineageTag: a9a68701-7287-4db8-9551-a7c6f479adce
+		summarizeBy: sum
+		sourceColumn: mxi_delete_flag
+
+		annotation SummarizationSetBy = Automatic
+
+	column mxi_term_start_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 8e4f5aa9-d402-41ff-897d-b97fd98f497b
+		summarizeBy: none
+		sourceColumn: mxi_term_start_date
+
+		variation Variation
+			isDefault
+			relationship: 2a8a8fc8-d42d-43f2-b6b2-b0e2075eb737
+			defaultHierarchy: LocalDateTable_a64d89cd-bbf2-4d99-81a9-d01a1ee72d14.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column mxi_term_end_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 2c2657d8-b7c6-4481-a7ee-59767452d137
+		summarizeBy: none
+		sourceColumn: mxi_term_end_date
+
+		variation Variation
+			isDefault
+			relationship: a571ab47-ebce-4895-b4b3-1daded4ec78a
+			defaultHierarchy: LocalDateTable_f8c79a98-efdf-4215-a837-880598274cbf.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column mxi_previous_term_start_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: c84f92e7-92a4-48d7-a8e0-efe3297b6597
+		summarizeBy: none
+		sourceColumn: mxi_previous_term_start_date
+
+		variation Variation
+			isDefault
+			relationship: cc86ca0d-276d-49d2-8c8f-3dfe890e7492
+			defaultHierarchy: LocalDateTable_4a1bd289-2fd0-42af-9554-057bdce09016.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column mxi_previous_term_end_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: c728f27b-4e6c-4a4d-abe7-bbb73aaa284d
+		summarizeBy: none
+		sourceColumn: mxi_previous_term_end_date
+
+		variation Variation
+			isDefault
+			relationship: a8b71e2f-e32b-40fb-a279-40de5343e9d7
+			defaultHierarchy: LocalDateTable_5a2f76a1-e390-4872-8e16-1ae396e42c7a.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column ret_key
+		dataType: string
+		lineageTag: e5624670-35cb-4e95-b93e-26f7e0f63de9
+		summarizeBy: none
+		sourceColumn: ret_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReportYearMonth
+		dataType: string
+		lineageTag: a28db0c5-3f74-4e1e-85a9-1b8888285a07
+		summarizeBy: none
+		sourceColumn: ReportYearMonth
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Join Date Month' = FORMAT(Membership_dashboard_data[mbr_join_date],"MM")
+		lineageTag: 6ff4cdef-dafd-475c-9e5c-93ffb901a60c
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Join Date Year' = FORMAT(Membership_dashboard_data[mbr_join_date],"YYYY")
+		lineageTag: 826a33fa-3de5-4038-98c9-574ce83e296a
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column JoinMonthYear = FORMAT(Membership_dashboard_data[mbr_join_date], "MMM-YY")
+		lineageTag: 973ae2b1-a4ef-4e2d-90f8-2983f9033f2b
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Years Since Join' =
+			
+			YEAR(TODAY()) - YEAR(Membership_dashboard_data[mbr_join_date])
+		formatString: 0
+		lineageTag: 2f2fd3da-881d-41be-be70-5a0816713a9f
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Year Distribution' =
+			IF(Membership_dashboard_data[Years Since Join] >=1 && Membership_dashboard_data[Years Since Join] <=5, "1-5 Years",
+			 IF(Membership_dashboard_data[Years Since Join] >=6 && Membership_dashboard_data[Years Since Join] <=10, "6-10 Years", "10+ Years"))
+		lineageTag: 88c2d1ca-a374-40e3-aa7c-d32b913b7f5f
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Year Experience' = Membership_dashboard_data[ind_years_experience_ccnursing_ext]
+		lineageTag: 52bde3d6-3fd5-4928-8a78-7fdc99ff9577
+		summarizeBy: none
+		sortByColumn: SortOrder
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Age Criteria' =
+			IF(Membership_dashboard_data[ind_age_cp] < 25 , "<25" ,
+			    IF(Membership_dashboard_data[ind_age_cp] >=25 && Membership_dashboard_data[ind_age_cp] <=34 , "25-34",
+			        IF(Membership_dashboard_data[ind_age_cp] >=35 && Membership_dashboard_data[ind_age_cp] <=44,"35-44",
+			            IF(Membership_dashboard_data[ind_age_cp] >=45 && Membership_dashboard_data[ind_age_cp] <=54,"45-54",
+			                IF(Membership_dashboard_data[ind_age_cp]>=55 && Membership_dashboard_data[ind_age_cp] <=64,"55-64",">64")))))
+		lineageTag: 2e688e62-4c8f-4c2c-b244-1f95c067e608
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Age = Membership_dashboard_data[Age Criteria]
+		lineageTag: 77a99f91-10dc-4d48-bbea-7e888f44fa1a
+		summarizeBy: none
+		sortByColumn: 'Age Sort'
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReportYear = INT(LEFT(FORMAT([ReportYearMonth], "000000"), 4))
+		formatString: 0
+		lineageTag: 63b72419-6d7b-4b55-8796-60a195bf9f13
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReportMonth = ```
+			INT(RIGHT(FORMAT([ReportYearMonth], "000000"), 2))
+			
+			```
+		formatString: 0
+		lineageTag: 527b09b7-242b-4294-8cdc-229ee6bfcef7
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year-Month =
+			
+			var x = CONCATENATE(Membership_dashboard_data[ReportYear],"-")
+			VAR y = CONCATENATE(x, FORMAT(Membership_dashboard_data[ReportMonth], "00"))
+			return y
+		lineageTag: c3a836a2-d63c-4315-a7e6-74d60dd459fb
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column SortOrder =
+			
+			IF(Membership_dashboard_data[ind_years_experience_ccnursing_ext]  = "LESS2", 1,
+			IF(Membership_dashboard_data[ind_years_experience_ccnursing_ext] = "2-3", 2,
+			IF(Membership_dashboard_data[ind_years_experience_ccnursing_ext] = "4-5", 3,
+			IF(Membership_dashboard_data[ind_years_experience_ccnursing_ext] = "6-10", 4,
+			IF(Membership_dashboard_data[ind_years_experience_ccnursing_ext] = "11-15", 5,
+			IF(Membership_dashboard_data[ind_years_experience_ccnursing_ext] = "16-20", 6,
+			IF(Membership_dashboard_data[ind_years_experience_ccnursing_ext]  = "21-25", 7,
+			IF(Membership_dashboard_data[ind_years_experience_ccnursing_ext] = "26-30", 8,
+			IF(Membership_dashboard_data[ind_years_experience_ccnursing_ext] = "31-35", 9,
+			IF(Membership_dashboard_data[ind_years_experience_ccnursing_ext] = "36-40", 10,
+			IF(Membership_dashboard_data[ind_years_experience_ccnursing_ext]  = "41PLUS", 11,
+			IF(Membership_dashboard_data[ind_years_experience_ccnursing_ext]  = "DECLINE", 12,
+			99))))))))
+			))))
+		formatString: 0
+		lineageTag: f0c168fe-903f-4e15-87f4-10ba958263e8
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Age Sort' = ```
+			
+			SWITCH(
+			    TRUE(),
+			    Membership_dashboard_data[Age Criteria] = "<25", 1,
+			     Membership_dashboard_data[Age Criteria] = "25-34", 2,
+			     Membership_dashboard_data[Age Criteria] = "35-44", 3,
+			    Membership_dashboard_data[Age Criteria] = "45-54", 4,
+			     Membership_dashboard_data[Age Criteria] = "55-64", 5,
+			     Membership_dashboard_data[Age Criteria] = ">64", 6,
+			    99  -- Default fallback
+			)
+			
+			```
+		formatString: 0
+		lineageTag: acad7b9d-be45-41aa-b0f0-ccf5dc3d42c6
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Membership_dashboard_data = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("27je7sxkqxjefn5tgdxsmzwhvm-klq2mx4rz2fuppjgtqdyjb7ccm.datawarehouse.fabric.microsoft.com", "Dev_Silver_Lakehouse"),
+				    dbo_Membership_dashboard_table = Source{[Schema="dbo",Item="Membership_dashboard_table"]}[Data]
+				in
+				    dbo_Membership_dashboard_table
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,14 @@
+[
+  {
+    "name": "table_selection_master",
+    "path": "/Tables",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/D365/table_selection_master",
+        "itemId": "7bc2b2a7-4822-4fb5-9e75-e44f2a81b00b",
+        "workspaceId": "748f6814-d554-47e6-9011-2e7b63d72c1d"
+      }
+    }
+  }
+]

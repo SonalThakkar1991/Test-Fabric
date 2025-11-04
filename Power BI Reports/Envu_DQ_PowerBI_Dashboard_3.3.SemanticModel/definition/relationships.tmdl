@@ -1,0 +1,57 @@
+relationship AutoDetected_20c940dd-96b6-4352-b5fd-f807fbb0aba4
+	crossFilteringBehavior: bothDirections
+	fromColumn: bronze_audit_mdm_tables.Table_Name
+	toColumn: 'Audit_Table_Pass and Failed Records'.TableName
+
+relationship 2f62e7bf-b2d5-45a2-b221-d1fb585c75f1
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Passed Tables List'.LoadDate_PST
+	toColumn: LocalDateTable_05e30159-12c8-40ff-a39c-0cb60bc01135.Date
+
+relationship ce0da1b8-6500-4af6-8051-916de2ea7595
+	joinOnDateBehavior: datePartOnly
+	fromColumn: bronze_audit_mdm_tables.LoadDate
+	toColumn: LocalDateTable_bb92c2cf-5370-43be-b767-abd792ff79b3.Date
+
+relationship 6655a532-0cab-43f0-851c-5c9dc834f96a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Passed Tables List'.LoadDate
+	toColumn: LocalDateTable_893aacf7-bb01-4aa4-bcf7-85b878a08bd4.Date
+
+relationship AutoDetected_2400e0b1-2dca-456e-a706-3e37cb19edc9
+	crossFilteringBehavior: bothDirections
+	fromColumn: bronze_audit_mdm_tables.Source_System
+	toColumn: 'Source System'.'Source System'
+
+relationship 28fca442-824f-453d-8a3f-b83309925ef5
+	joinOnDateBehavior: datePartOnly
+	fromColumn: bronze_audit_mdm_tables.Date
+	toColumn: LocalDateTable_b768c90c-53ae-46fc-93fa-699a835ee5b0.Date
+
+relationship 4118f4ce-2c8f-3eab-9d56-807161000fd2
+	crossFilteringBehavior: bothDirections
+	fromColumn: 'Passed Tables List'.Source_System
+	toColumn: 'Source System'.'Source System'
+
+relationship AutoDetected_b0eb5cdf-e709-4bdc-92f5-cb3d48537e25
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 'Audit_Table_Pass and Failed Records'.TableName
+	toColumn: Table_selection_master.Table_Name
+
+relationship AutoDetected_d2b3cdfe-1093-42e7-9f3b-b4b11ab17eb4
+	isActive: false
+	fromColumn: bronze_audit_mdm_tables.Table_Name
+	toColumn: Table_selection_master.Table_Name
+
+relationship AutoDetected_af82b720-1420-4eb6-be91-bd033fda81ff
+	isActive: false
+	fromColumn: Table_selection_master.SourceSystem
+	toColumn: 'Source System'.'Source System'
+
+relationship 0ef26d66-bb93-5dd9-94b6-e9d63129f5ff
+	crossFilteringBehavior: bothDirections
+	toCardinality: many
+	fromColumn: 'Passed Tables List'.Table_Name
+	toColumn: bronze_audit_mdm_tables.Table_Name
+

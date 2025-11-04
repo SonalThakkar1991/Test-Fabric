@@ -1,0 +1,52 @@
+table Table_Location
+	isHidden
+	lineageTag: ca9266bc-87a4-4e86-b901-1a5cc1409559
+
+	column 'Workspace Name'
+		dataType: string
+		isHidden
+		lineageTag: 19b43f07-761f-4da1-91c1-47e1db206fd5
+		summarizeBy: none
+		sourceColumn: Workspace Name
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Lakehouse Name'
+		dataType: string
+		isHidden
+		lineageTag: f38f122c-be51-4d79-b29a-385341bb3aa5
+		summarizeBy: none
+		sourceColumn: Lakehouse Name
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Table_Name
+		dataType: string
+		isHidden
+		lineageTag: 9f10aa6e-504f-45e3-bac0-08b331008825
+		summarizeBy: none
+		sourceColumn: Table_Name
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Table_Location = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("pcwxDsIwDEbhu2SuuASM7AxVZDnNj4iaxMh2OnB6VBiYUdcnvW+ewwUbnUVBN9HVnrwgTL945RUPGbbHnOSUVPoLxCMXp5YbOacKC3H6V+rwu+hotHEtmb1IPwZ+RjJULF+MzaEhxjc=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Workspace Name" = _t, #"Lakehouse Name" = _t, Table_Name = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Workspace Name", type text}, {"Lakehouse Name", type text}, {"Table_Name", type text}})
+				in
+				    #"Changed Type"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

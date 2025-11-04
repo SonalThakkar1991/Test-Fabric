@@ -1,0 +1,51 @@
+table 'Audit_Table_Pass and Failed Records'
+	lineageTag: c64bc125-1dbb-47c7-bc08-2af7c78697d8
+
+	measure Total_Records = CALCULATE(SUM('Audit_Table_Pass and Failed Records'[RowCount]))
+		formatString: #,0
+		lineageTag: d2814105-d0d8-41ca-a445-1de4422bd3e2
+
+	column TableName
+		dataType: string
+		lineageTag: 2993411d-111e-4968-8c4a-c616cb28fe9f
+		summarizeBy: none
+		sourceColumn: TableName
+
+		annotation SummarizationSetBy = Automatic
+
+	column RowCount
+		dataType: int64
+		formatString: 0
+		lineageTag: 7d98fe7d-96b7-42fa-804a-846984625b1d
+		summarizeBy: none
+		sourceColumn: RowCount
+
+		annotation SummarizationSetBy = Automatic
+
+	column Count
+		dataType: int64
+		formatString: 0
+		lineageTag: fd7a72b4-835f-46e2-8d5e-52244b2d5d6e
+		summarizeBy: none
+		sourceColumn: Count
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Audit_Table_Pass and Failed Records' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("3klz7u5s3oqebfsrqkpjercbge-azvq6kmwg4uethky6vrp2c76zu.datawarehouse.fabric.microsoft.com", "MDM_Bronze_Layer", [Query="-- 1. Declare variable to hold the final SQL statement#(lf)    DECLARE @sql NVARCHAR(MAX);#(lf)#(lf)    -- 2. Generate dynamic SQL for all tables in the audit table#(lf)    SELECT @sql = STRING_AGG(#(lf)        'SELECT ''' + Table_Name + ''' AS TableName, COUNT(*) AS [RowCount] FROM D365.' + QUOTENAME(Table_Name),#(lf)        ' UNION ALL '#(lf)    )#(lf)    FROM (SELECT DISTINCT Table_Name FROM [MDM_Bronze_Layer].[D365].[data_quality_audit_table]) AS tbl;;#(lf)#(lf)    -- 3. Execute the generated SQL#(lf)    EXEC sp_executesql @sql;#(lf)"]),
+				    #"Merged Queries" = Table.NestedJoin(Source, {"TableName"}, bronze_audit_mdm_tables, {"Table_Name"}, "bronze_audit_mdm_tables",
+				 JoinKind.LeftOuter),
+				    #"Expanded bronze_audit" = Table.ExpandTableColumn(#"Merged Queries", "bronze_audit_mdm_tables", {"Index_Key"}, {"bronze_audit_mdm_tables.Index_Key"}),
+				    #"Filtered Rows" = Table.SelectRows(#"Expanded bronze_audit", each true),
+				    #"Grouped Rows" = Table.Group(#"Filtered Rows", {"TableName", "RowCount"}, {{"Count", each Table.RowCount(_), Int64.Type}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Grouped Rows","SAP_Customer_Data","customer",Replacer.ReplaceText,{"TableName"})
+				in
+				    #"Replaced Value"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
