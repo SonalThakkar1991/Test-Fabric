@@ -1,0 +1,80 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "name": "Copy data1",
+        "type": "Copy",
+        "dependsOn": [],
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "typeProperties": {
+          "source": {
+            "type": "LakehouseTableSource",
+            "datasetSettings": {
+              "annotations": [],
+              "linkedService": {
+                "name": "MDM_Bronze_Lakehouse",
+                "properties": {
+                  "annotations": [],
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "748f6814-d554-47e6-9011-2e7b63d72c1d",
+                    "artifactId": "61eadb89-0a8d-44c6-8892-0e8e0ef49a85",
+                    "rootFolder": "Tables"
+                  }
+                }
+              },
+              "type": "LakehouseTable",
+              "schema": [],
+              "typeProperties": {
+                "schema": "Bronze",
+                "table": "Employee_Merge_Suggestions"
+              }
+            }
+          },
+          "sink": {
+            "type": "DataWarehouseSink",
+            "allowCopyCommand": true,
+            "copyCommandSettings": {},
+            "tableOption": "autoCreate",
+            "datasetSettings": {
+              "annotations": [],
+              "linkedService": {
+                "name": "MDM_Bronze_WH",
+                "properties": {
+                  "annotations": [],
+                  "type": "DataWarehouse",
+                  "typeProperties": {
+                    "endpoint": "3klz7u5s3oqebfsrqkpjercbge-azvq6kmwg4uethky6vrp2c76zu.datawarehouse.fabric.microsoft.com",
+                    "artifactId": "861e3467-a852-4f31-a673-821e9985e030",
+                    "workspaceId": "290f6b06-3796-4928-9d58-f562fd0bfecd"
+                  }
+                }
+              },
+              "type": "DataWarehouseTable",
+              "schema": [],
+              "typeProperties": {
+                "schema": "dbo ",
+                "table": "Employee_Merge_Suggestions"
+              }
+            }
+          },
+          "enableStaging": true,
+          "translator": {
+            "type": "TabularTranslator",
+            "typeConversion": true,
+            "typeConversionSettings": {
+              "allowDataTruncation": true,
+              "treatBooleanAsNumber": false
+            }
+          }
+        }
+      }
+    ]
+  }
+}

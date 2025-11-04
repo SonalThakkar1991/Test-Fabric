@@ -1,0 +1,227 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "LakehouseTableSource",
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "schema": "dbo",
+                "table": "Addressvalidation"
+              },
+              "schema": [],
+              "linkedService": {
+                "name": "MDM_Bronze_Lakehouse",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "61eadb89-0a8d-44c6-8892-0e8e0ef49a85",
+                    "workspaceId": "748f6814-d554-47e6-9011-2e7b63d72c1d",
+                    "rootFolder": "Tables"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "Addressvalidation"
+              },
+              "schema": [],
+              "linkedService": {
+                "name": "MDM_Bronze_Layer",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "9484b134-f256-4f49-b93c-4f25a1223ead",
+                    "workspaceId": "290f6b06-3796-4928-9d58-f562fd0bfecd",
+                    "rootFolder": "Tables"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "translator": {
+            "type": "TabularTranslator",
+            "typeConversion": true,
+            "typeConversionSettings": {
+              "allowDataTruncation": true,
+              "treatBooleanAsNumber": false
+            }
+          },
+          "enableStaging": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Addressvalidation_Data_Load",
+        "state": "Inactive",
+        "onInactiveMarkAs": "Succeeded",
+        "dependsOn": []
+      },
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "LakehouseTableSource",
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "schema": "D365",
+                "table": "review_line_validation_suggestion"
+              },
+              "schema": [],
+              "linkedService": {
+                "name": "MDM_Bronze_Layer_Old",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "efb5676a-d439-4d96-a9ea-abc3fd926d45",
+                    "workspaceId": "290f6b06-3796-4928-9d58-f562fd0bfecd",
+                    "rootFolder": "Tables"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "review_line_validation_suggestion_test"
+              },
+              "schema": [],
+              "linkedService": {
+                "name": "MDM_Bronze_Layer",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "9484b134-f256-4f49-b93c-4f25a1223ead",
+                    "workspaceId": "290f6b06-3796-4928-9d58-f562fd0bfecd",
+                    "rootFolder": "Tables"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "translator": {
+            "type": "TabularTranslator",
+            "typeConversion": true,
+            "typeConversionSettings": {
+              "allowDataTruncation": true,
+              "treatBooleanAsNumber": false
+            }
+          },
+          "enableStaging": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "review_line_validation_sugg_Data_Load",
+        "state": "Inactive",
+        "onInactiveMarkAs": "Succeeded",
+        "dependsOn": []
+      },
+      {
+        "type": "Copy",
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "select top 1200 * from [Netforum].[bronze_co_address]",
+            "partitionOption": "None",
+            "queryTimeout": "02:00:00",
+            "datasetSettings": {
+              "type": "AzureSqlTable",
+              "typeProperties": {
+                "schema": "Netforum",
+                "table": "bronze_co_address",
+                "database": "Dev_Core_Lakehouse"
+              },
+              "schema": [],
+              "externalReferences": {
+                "connection": "c56a2f20-6363-4175-b1d0-b96b565f2808"
+              },
+              "annotations": []
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "type": "LakehouseTable",
+              "typeProperties": {
+                "table": "bronze_co_address_test"
+              },
+              "schema": [],
+              "linkedService": {
+                "name": "MDM_Bronze_Layer",
+                "properties": {
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "artifactId": "a1223ead-4f25-b93c-4f49-f2569484b134",
+                    "workspaceId": "00000000-0000-0000-0000-000000000000",
+                    "rootFolder": "Tables"
+                  },
+                  "annotations": []
+                }
+              },
+              "annotations": []
+            }
+          },
+          "translator": {
+            "type": "TabularTranslator",
+            "typeConversion": true,
+            "typeConversionSettings": {
+              "allowDataTruncation": true,
+              "treatBooleanAsNumber": false
+            }
+          },
+          "enableStaging": false
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "bronze_customer_data_load",
+        "dependsOn": []
+      }
+    ],
+    "parameters": {
+      "LK_ID": {
+        "type": "string",
+        "defaultValue": "9484b134-f256-4f49-b93c-4f25a1223ead"
+      }
+    }
+  }
+}
