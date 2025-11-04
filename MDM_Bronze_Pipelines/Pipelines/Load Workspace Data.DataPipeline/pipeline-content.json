@@ -1,0 +1,147 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "name": "Copy data1",
+        "type": "Copy",
+        "dependsOn": [],
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "typeProperties": {
+          "source": {
+            "type": "SqlServerSource",
+            "sqlReaderQuery": "SET NOCOUNT ON;\n\nDECLARE @sql NVARCHAR(MAX) = N'';\nDECLARE @workspaceName NVARCHAR(256) = N'Dynatech_MDM_Bronze';\n\n-- Escape workspace name for embedding\nSET @workspaceName = REPLACE(@workspaceName, '''', '''''' );\n\n-- Prefix we'll remove at the end\nDECLARE @blockPrefix NVARCHAR(50) = N'UNION ALL' + CHAR(13) + CHAR(10);\n\n-- Prepare a temp table with row numbers to iterate without using @@FETCH_STATUS\nIF OBJECT_ID('tempdb..#dbs') IS NOT NULL DROP TABLE #dbs;\n\nCREATE TABLE #dbs (\n    rn INT PRIMARY KEY,\n    database_id INT,\n    name SYSNAME\n);\n\nINSERT INTO #dbs (rn, database_id, name)\nSELECT ROW_NUMBER() OVER (ORDER BY database_id) AS rn,\n       database_id,\n       name\nFROM sys.databases\nWHERE state = 0\n  AND database_id > 4;   -- exclude system DBs\n\nDECLARE @i INT = 1;\nDECLARE @max INT = (SELECT ISNULL(MAX(rn),0) FROM #dbs);\n\nWHILE @i <= @max\nBEGIN\n    DECLARE @dbName SYSNAME;\n    SELECT @dbName = name FROM #dbs WHERE rn = @i;\n\n    BEGIN TRY\n        DECLARE @oneBlock NVARCHAR(MAX);\n\n        SET @oneBlock =\n            @blockPrefix + N'\nSELECT ' + QUOTENAME(@workspaceName,'''') + N' AS WorkspaceName,\n       ' + QUOTENAME(@dbName,'''') + N' AS DatabaseName,\n       t.TABLE_SCHEMA AS SchemaName,\n       t.TABLE_NAME AS TableName\nFROM ' + QUOTENAME(@dbName) + N'.INFORMATION_SCHEMA.TABLES t\nWHERE t.TABLE_TYPE = ''BASE TABLE''';\n\n        SET @sql = @sql + @oneBlock;\n    END TRY\n    BEGIN CATCH\n        -- Log and continue if a DB is inaccessible or errors\n        PRINT 'Skipped DB: ' + ISNULL(@dbName,'<unknown>') + ' - ' + ERROR_MESSAGE();\n    END CATCH\n\n    SET @i = @i + 1;\nEND\n\nDROP TABLE #dbs;\n\n-- If nothing appended, exit\nIF LEN(@sql) = 0\nBEGIN\n    PRINT 'No accessible user databases found or none with base tables.';\n    RETURN;\nEND\n\n-- Remove the initial 'UNION ALL' safely\nSET @sql = STUFF(@sql, 1, LEN(@blockPrefix), N'');  \n\n-- Optional: inspect the generated SQL (comment out in production)\nPRINT @sql;\n\n-- Execute the generated query\nEXEC sp_executesql @sql;\n",
+            "queryTimeout": "02:00:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "annotations": [],
+              "type": "SqlServerTable",
+              "schema": [],
+              "typeProperties": {
+                "database": "MDM_Bronze_Layer"
+              },
+              "externalReferences": {
+                "connection": "c970c451-fa5c-4e96-bfa7-3f0b20812ca6"
+              }
+            }
+          },
+          "sink": {
+            "type": "DataWarehouseSink",
+            "allowCopyCommand": true,
+            "copyCommandSettings": {},
+            "tableOption": "autoCreate",
+            "datasetSettings": {
+              "annotations": [],
+              "linkedService": {
+                "name": "MDM_Bronze_WH",
+                "properties": {
+                  "annotations": [],
+                  "type": "DataWarehouse",
+                  "typeProperties": {
+                    "endpoint": "3klz7u5s3oqebfsrqkpjercbge-azvq6kmwg4uethky6vrp2c76zu.datawarehouse.fabric.microsoft.com",
+                    "artifactId": "861e3467-a852-4f31-a673-821e9985e030",
+                    "workspaceId": "290f6b06-3796-4928-9d58-f562fd0bfecd"
+                  }
+                }
+              },
+              "type": "DataWarehouseTable",
+              "schema": [],
+              "typeProperties": {
+                "schema": "dbo",
+                "table": "MetaControl"
+              }
+            }
+          },
+          "enableStaging": true,
+          "translator": {
+            "type": "TabularTranslator",
+            "typeConversion": true,
+            "typeConversionSettings": {
+              "allowDataTruncation": true,
+              "treatBooleanAsNumber": false
+            }
+          }
+        }
+      },
+      {
+        "name": "Copy data1_copy1",
+        "type": "Copy",
+        "state": "Inactive",
+        "onInactiveMarkAs": "Succeeded",
+        "dependsOn": [
+          {
+            "activity": "Copy data1",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SET NOCOUNT ON;\n\nDECLARE @sql NVARCHAR(MAX) = N'';\nDECLARE @workspaceName NVARCHAR(256);\nDECLARE @chosenColumn SYSNAME;\n\n-- Helper: If sys.workspaces exists, choose a best-fit column for display name\nIF OBJECT_ID('sys.workspaces') IS NOT NULL\nBEGIN\n    ;WITH cols AS (\n        SELECT name,\n               CASE \n                 WHEN name = 'display_name' THEN 1\n                 WHEN name = 'friendly_name' THEN 2\n                 WHEN name = 'workspace_name' THEN 3\n                 WHEN name = 'name' THEN 4\n                 ELSE 100\n               END AS priority\n        FROM sys.columns\n        WHERE object_id = OBJECT_ID('sys.workspaces')\n          AND name IN ('display_name','friendly_name','workspace_name','name')\n    )\n    SELECT TOP (1) @chosenColumn = name\n    FROM cols\n    ORDER BY priority;\nEND\n\n-- If we found a candidate column, try to read it\nIF @chosenColumn IS NOT NULL\nBEGIN\n    DECLARE @sqlWs NVARCHAR(MAX) = N'SELECT TOP(1) @ws = CAST(' + QUOTENAME(@chosenColumn) + ' AS NVARCHAR(256)) FROM sys.workspaces';\n    BEGIN TRY\n        EXEC sp_executesql @sqlWs, N'@ws NVARCHAR(256) OUTPUT', @ws = @workspaceName OUTPUT;\n    END TRY\n    BEGIN CATCH\n        -- any problem reading it -> fallback\n        SET @workspaceName = NULL;\n    END CATCH;\nEND\n\n-- If no sys.workspaces or we couldn't read a friendly column, fallback to server name\nIF @workspaceName IS NULL OR LTRIM(RTRIM(@workspaceName)) = ''\nBEGIN\n    SET @workspaceName = CONVERT(NVARCHAR(256), SERVERPROPERTY('ServerName'));\nEND\n\n-- SMART OVERRIDE:\n-- if the value looks like a GUID (e.g. 290f6b06-3796-4928-9d58-f562fd0bfecd),\n-- replace it with the desired friendly name.\nIF TRY_CONVERT(UNIQUEIDENTIFIER, @workspaceName) IS NOT NULL\nBEGIN\n    SET @workspaceName = N'Dynatech_MDM_Silver';\nEND\n\n-- Alternatively, you can unconditionally set the name:\n-- SET @workspaceName = N'Dynatech_MDM_Silver';\n\n-- Escape single quotes so we can safely embed the workspace name into the dynamic query text\nSET @workspaceName = REPLACE(ISNULL(@workspaceName, ''), '''', '''''' );\n\n-- 2) Build the union ALL query across user databases\nSELECT @sql = @sql + \n    'SELECT ''' + @workspaceName + ''' AS WorkspaceName,\n            ' + QUOTENAME(name,'''') + ' AS DatabaseName,\n            t.TABLE_SCHEMA AS SchemaName,\n            t.TABLE_NAME AS TableName\n     FROM ' + QUOTENAME(name) + '.INFORMATION_SCHEMA.TABLES t\n     WHERE t.TABLE_TYPE = ''BASE TABLE''\n     UNION ALL\n    '\nFROM sys.databases\nWHERE state = 0                                      -- online databases\n  AND database_id > 4                                -- exclude system DBs (master,tempdb,model,msdb by id)\n  -- optionally add more filters here\n\n-- Remove trailing UNION ALL\nIF LEN(@sql) = 0\nBEGIN\n    PRINT 'No databases to query.';\n    RETURN;\nEND\n\nSET @sql = LEFT(@sql, LEN(@sql) - LEN('\n     UNION ALL\n    '));\n\nEXEC sp_executesql @sql;\nGO\n",
+            "queryTimeout": "02:00:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "annotations": [],
+              "type": "AzureSqlTable",
+              "schema": [],
+              "typeProperties": {},
+              "externalReferences": {
+                "connection": "c970c451-fa5c-4e96-bfa7-3f0b20812ca6"
+              }
+            }
+          },
+          "sink": {
+            "type": "DataWarehouseSink",
+            "allowCopyCommand": true,
+            "copyCommandSettings": {},
+            "tableOption": "autoCreate",
+            "datasetSettings": {
+              "annotations": [],
+              "linkedService": {
+                "name": "MDM_Bronze_WH",
+                "properties": {
+                  "annotations": [],
+                  "type": "DataWarehouse",
+                  "typeProperties": {
+                    "endpoint": "3klz7u5s3oqebfsrqkpjercbge-azvq6kmwg4uethky6vrp2c76zu.datawarehouse.fabric.microsoft.com",
+                    "artifactId": "861e3467-a852-4f31-a673-821e9985e030",
+                    "workspaceId": "290f6b06-3796-4928-9d58-f562fd0bfecd"
+                  }
+                }
+              },
+              "type": "DataWarehouseTable",
+              "schema": [],
+              "typeProperties": {
+                "schema": "dbo",
+                "table": "MetaControl"
+              }
+            }
+          },
+          "enableStaging": true,
+          "translator": {
+            "type": "TabularTranslator",
+            "typeConversion": true,
+            "typeConversionSettings": {
+              "allowDataTruncation": true,
+              "treatBooleanAsNumber": false
+            }
+          }
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "Load Workspace Data"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "97faa7df-e451-b103-4f34-bffaf7945686"
+  }
+}
