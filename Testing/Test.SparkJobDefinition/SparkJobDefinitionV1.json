@@ -1,0 +1,11 @@
+{
+  "executableFile": "spark_job.py",
+  "defaultLakehouseArtifactId": "7bc2b2a7-4822-4fb5-9e75-e44f2a81b00b",
+  "mainClass": "",
+  "additionalLakehouseIds": [],
+  "retryPolicy": null,
+  "commandLineArguments": "{     \"jobInput\": {         \"table_name\": \"mserp_dirpartytablebientity\",         \"index_value\": \"42\"     } }",
+  "additionalLibraryUris": [],
+  "language": "Python",
+  "environmentArtifactId": "7b1314d9-16e4-a771-4052-e261ff18e179"
+}
