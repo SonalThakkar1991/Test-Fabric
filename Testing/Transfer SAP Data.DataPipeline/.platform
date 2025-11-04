@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "Transfer SAP Data"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "407e84d5-ce6a-a7d3-44c6-f6ba70b07d13"
+  }
+}

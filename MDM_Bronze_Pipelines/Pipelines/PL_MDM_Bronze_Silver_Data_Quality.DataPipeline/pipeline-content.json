@@ -1,0 +1,396 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "name": "Lookup_Table_List",
+        "type": "Lookup",
+        "dependsOn": [
+          {
+            "activity": "Silver_Stage Layer Data Load Success",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "SELECT * FROM Silver_Stage.silver_stage_control_table",
+            "queryTimeout": "02:00:00",
+            "partitionOption": "None"
+          },
+          "firstRowOnly": false,
+          "datasetSettings": {
+            "annotations": [],
+            "type": "AzureSqlTable",
+            "schema": [],
+            "typeProperties": {
+              "database": "MDM_Silver_Stage_Lakehouse"
+            },
+            "externalReferences": {
+              "connection": "ac42e816-cc65-4dba-ae90-f3e2af90bb3e"
+            }
+          }
+        }
+      },
+      {
+        "name": "ForEach_Activity_SilverStage_To_Silver",
+        "description": "Iterate through Each Row to load the Data from SilverStage to Silver Layer.",
+        "type": "ForEach",
+        "dependsOn": [
+          {
+            "activity": "Lookup_Table_List",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "items": {
+            "value": "@activity('Lookup_Table_List').output.value",
+            "type": "Expression"
+          },
+          "isSequential": true,
+          "activities": [
+            {
+              "name": "Entity_Name_Variable",
+              "type": "SetVariable",
+              "dependsOn": [],
+              "policy": {
+                "secureOutput": false,
+                "secureInput": false
+              },
+              "typeProperties": {
+                "variableName": "Entity_Name",
+                "value": {
+                  "value": "@item().Table_Name\n",
+                  "type": "Expression"
+                }
+              }
+            },
+            {
+              "name": "Silver_Stage_To_Silver_Layer_Data_Load",
+              "description": "Pushing the data from Silver Stage to Silver Layer.",
+              "type": "Copy",
+              "dependsOn": [
+                {
+                  "activity": "Entity_Name_Variable",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ],
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureOutput": false,
+                "secureInput": false
+              },
+              "typeProperties": {
+                "source": {
+                  "type": "AzureSqlSource",
+                  "sqlReaderQuery": {
+                    "value": "@concat('SELECT * FROM ',variables('Entity_Name'))",
+                    "type": "Expression"
+                  },
+                  "queryTimeout": "02:00:00",
+                  "partitionOption": "None",
+                  "datasetSettings": {
+                    "annotations": [],
+                    "type": "AzureSqlTable",
+                    "schema": [],
+                    "typeProperties": {
+                      "database": "MDM_Silver_Stage_Lakehouse"
+                    },
+                    "externalReferences": {
+                      "connection": "ac42e816-cc65-4dba-ae90-f3e2af90bb3e"
+                    }
+                  }
+                },
+                "sink": {
+                  "type": "LakehouseTableSink",
+                  "tableActionOption": "OverwriteSchema",
+                  "partitionOption": "None",
+                  "datasetSettings": {
+                    "annotations": [],
+                    "linkedService": {
+                      "name": "66a273b2_769e_4b91_835c_f69cf3a13008",
+                      "properties": {
+                        "annotations": [],
+                        "type": "Lakehouse",
+                        "typeProperties": {
+                          "workspaceId": "748f6814-d554-47e6-9011-2e7b63d72c1d",
+                          "artifactId": "@pipeline().parameters.Lakehouse_ID",
+                          "rootFolder": "Tables"
+                        }
+                      }
+                    },
+                    "type": "LakehouseTable",
+                    "schema": [],
+                    "typeProperties": {
+                      "schema": "Silver",
+                      "table": {
+                        "value": "@split(split(variables('Entity_Name'), '.')[1], '_')[0]\n\n",
+                        "type": "Expression"
+                      }
+                    }
+                  }
+                },
+                "enableStaging": false,
+                "translator": {
+                  "type": "TabularTranslator",
+                  "typeConversion": true,
+                  "typeConversionSettings": {
+                    "allowDataTruncation": true,
+                    "treatBooleanAsNumber": false
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "Lookup_DQ_List",
+        "type": "Lookup",
+        "dependsOn": [],
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "typeProperties": {
+          "source": {
+            "type": "LakehouseTableSource"
+          },
+          "firstRowOnly": false,
+          "datasetSettings": {
+            "annotations": [],
+            "linkedService": {
+              "name": "MDM_Bronze_Lakehouse",
+              "properties": {
+                "annotations": [],
+                "type": "Lakehouse",
+                "typeProperties": {
+                  "workspaceId": "748f6814-d554-47e6-9011-2e7b63d72c1d",
+                  "artifactId": "61eadb89-0a8d-44c6-8892-0e8e0ef49a85",
+                  "rootFolder": "Tables"
+                }
+              }
+            },
+            "type": "LakehouseTable",
+            "schema": [],
+            "typeProperties": {
+              "schema": "Bronze",
+              "table": "mdm_control_table"
+            }
+          }
+        }
+      },
+      {
+        "name": "Bronze_SilverStage_Data_Quality",
+        "description": "Iterate through each table from Bronze Layer to Run Data Quality and load them into SilverStage Layer.",
+        "type": "ForEach",
+        "dependsOn": [
+          {
+            "activity": "Lookup_DQ_List",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "items": {
+            "value": "@activity('Lookup_DQ_List').output.value",
+            "type": "Expression"
+          },
+          "isSequential": true,
+          "activities": [
+            {
+              "name": "Table_Name_Var",
+              "type": "SetVariable",
+              "dependsOn": [],
+              "policy": {
+                "secureOutput": false,
+                "secureInput": false
+              },
+              "typeProperties": {
+                "variableName": "Stage_Table_Var",
+                "value": {
+                  "value": "@item().Table_Name",
+                  "type": "Expression"
+                }
+              }
+            },
+            {
+              "name": "DQ_Check_Notebook",
+              "type": "TridentNotebook",
+              "dependsOn": [
+                {
+                  "activity": "Table_Name_Var",
+                  "dependencyConditions": [
+                    "Succeeded"
+                  ]
+                }
+              ],
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureOutput": false,
+                "secureInput": false
+              },
+              "typeProperties": {
+                "notebookId": "8b5923be-2cf5-4c4b-9b94-f121502e44c2",
+                "workspaceId": "748f6814-d554-47e6-9011-2e7b63d72c1d",
+                "parameters": {
+                  "Stage_Table_Var": {
+                    "value": {
+                      "value": "@variables('Stage_Table_Var')",
+                      "type": "Expression"
+                    },
+                    "type": "string"
+                  }
+                },
+                "sessionTag": "MDM_Session"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "Silver_Stage Layer Data Load Success",
+        "type": "Office365Outlook",
+        "dependsOn": [
+          {
+            "activity": "Bronze_SilverStage_Data_Quality",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "inputs": {
+            "method": "post",
+            "path": "/v2/Mail",
+            "body": {
+              "To": "Palak.Modi@dynatechconsultancy.com;Shubham.Kumbhar@dynatechconsultancy.com;Hetul.Shah@dynatechconsultancy.com;Dhaval.Pujara@dynatechconsultancy.com",
+              "Subject": "Data Load is Successfull.",
+              "Body": "<p>The Data Load from Bronze to Silver Stage Layer is Successfull.</p>",
+              "Sensitivity": "",
+              "Importance": "Normal"
+            }
+          }
+        }
+      },
+      {
+        "name": "Silver_Stage Layer Data Load Failed",
+        "type": "Office365Outlook",
+        "dependsOn": [
+          {
+            "activity": "Bronze_SilverStage_Data_Quality",
+            "dependencyConditions": [
+              "Failed"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "inputs": {
+            "method": "post",
+            "path": "/v2/Mail",
+            "body": {
+              "To": "Palak.Modi@dynatechconsultancy.com;Shubham.Kumbhar@dynatechconsultancy.com;Hetul.Shah@dynatechconsultancy.com;Dhaval.Pujara@dynatechconsultancy.com",
+              "Subject": "Data Load has Failed.",
+              "Body": "<p>The Data Load from Bronze to Silver Stage Layer has Failed.</p>",
+              "Sensitivity": "",
+              "Importance": "Normal"
+            }
+          }
+        }
+      },
+      {
+        "name": "Silver Layer Data Load Success",
+        "type": "Office365Outlook",
+        "dependsOn": [
+          {
+            "activity": "ForEach_Activity_SilverStage_To_Silver",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "inputs": {
+            "method": "post",
+            "path": "/v2/Mail",
+            "body": {
+              "To": "Palak.Modi@dynatechconsultancy.com;Shubham.Kumbhar@dynatechconsultancy.com;Hetul.Shah@dynatechconsultancy.com;Dhaval.Pujara@dynatechconsultancy.com",
+              "Subject": "Data Load is Successfull.",
+              "Body": "<p>The Data Load from Bronze to Silve Layer is Successfull.</p>",
+              "Sensitivity": "",
+              "Importance": "Normal"
+            }
+          }
+        }
+      },
+      {
+        "name": "Silver Layer Data Load Failed",
+        "type": "Office365Outlook",
+        "dependsOn": [
+          {
+            "activity": "ForEach_Activity_SilverStage_To_Silver",
+            "dependencyConditions": [
+              "Failed"
+            ]
+          }
+        ],
+        "typeProperties": {
+          "inputs": {
+            "method": "post",
+            "path": "/v2/Mail",
+            "body": {
+              "To": "Palak.Modi@dynatechconsultancy.com;Shubham.Kumbhar@dynatechconsultancy.com;Hetul.Shah@dynatechconsultancy.com;Dhaval.Pujara@dynatechconsultancy.com",
+              "Subject": "Data Load has Failed.",
+              "Body": "<p>The Data Load from Bronze to Silver Layer has Failed.</p>",
+              "Sensitivity": "",
+              "Importance": "Normal"
+            }
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Lakehouse_ID": {
+        "type": "string",
+        "defaultValue": "8054ed33-bb14-4a8e-9966-60ade4b0b0a9"
+      }
+    },
+    "variables": {
+      "Entity_Name": {
+        "type": "String"
+      },
+      "Stage_Table_Var": {
+        "type": "String"
+      }
+    },
+    "logicAppsConnectionPayload": {
+      "id": "/subscriptions/07be1452-124c-4a2c-8d72-751fc8e12b5b/resourceGroups/connections-290f6b06-3796-4928-9d58-f562fd0bfecd/providers/Microsoft.Web/connections/1_b709cb1e-37dc-4031-a5f1-10fa66448e3d_6c4c1686-16cc-4dfa-8deb-cd242c98e62a",
+      "properties": {
+        "api": {
+          "name": "office365",
+          "id": "/subscriptions/07be1452-124c-4a2c-8d72-751fc8e12b5b/providers/Microsoft.Web/locations/eastus/managedApis/office365"
+        }
+      }
+    }
+  }
+}

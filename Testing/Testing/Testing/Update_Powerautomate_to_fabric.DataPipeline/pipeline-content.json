@@ -1,0 +1,758 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "name": "Copy data1",
+        "type": "Copy",
+        "dependsOn": [],
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "typeProperties": {
+          "source": {
+            "type": "CommonDataServiceForAppsSource",
+            "datasetSettings": {
+              "annotations": [],
+              "type": "CommonDataServiceForAppsEntity",
+              "schema": [],
+              "typeProperties": {
+                "entityName": "new_dqtableselectionmaster"
+              },
+              "externalReferences": {
+                "connection": "825754b4-bd87-4c6f-9c21-23ae9921cc2b"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "Upsert",
+            "upsertSettings": {
+              "keys": [
+                "new_no"
+              ]
+            },
+            "datasetSettings": {
+              "annotations": [],
+              "linkedService": {
+                "name": "79c47c59_c921_43bb_962f_6557c77e1959",
+                "properties": {
+                  "annotations": [],
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "290f6b06-3796-4928-9d58-f562fd0bfecd",
+                    "artifactId": "@pipeline().parameters.LKID",
+                    "rootFolder": "Tables"
+                  }
+                }
+              },
+              "type": "LakehouseTable",
+              "schema": [],
+              "typeProperties": {
+                "schema": "D365",
+                "table": "table_selection_master_testing_automate"
+              }
+            }
+          },
+          "enableStaging": false,
+          "translator": {
+            "type": "TabularTranslator",
+            "mappings": [
+              {
+                "source": {
+                  "name": "createdbyname",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "createdbyname",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "createdbyyominame",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "createdbyyominame",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "createdon",
+                  "type": "DateTime"
+                },
+                "sink": {
+                  "name": "createdon",
+                  "physicalType": "timestamp"
+                }
+              },
+              {
+                "source": {
+                  "name": "createdonbehalfbyname",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "createdonbehalfbyname",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "createdonbehalfbyyominame",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "createdonbehalfbyyominame",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "importsequencenumber",
+                  "type": "Int32"
+                },
+                "sink": {
+                  "name": "importsequencenumber",
+                  "physicalType": "integer"
+                }
+              },
+              {
+                "source": {
+                  "name": "modifiedbyname",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "modifiedbyname",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "modifiedbyyominame",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "modifiedbyyominame",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "modifiedon",
+                  "type": "DateTime"
+                },
+                "sink": {
+                  "name": "modifiedon",
+                  "physicalType": "timestamp"
+                }
+              },
+              {
+                "source": {
+                  "name": "modifiedonbehalfbyname",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "modifiedonbehalfbyname",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "modifiedonbehalfbyyominame",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "modifiedonbehalfbyyominame",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "new_description",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "new_description",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "new_no",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "new_no",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "new_purview_business_glossary",
+                  "type": "Boolean"
+                },
+                "sink": {
+                  "name": "new_purview_business_glossary",
+                  "physicalType": "boolean"
+                }
+              },
+              {
+                "source": {
+                  "name": "new_purview_cde",
+                  "type": "Boolean"
+                },
+                "sink": {
+                  "name": "new_purview_cde",
+                  "physicalType": "boolean"
+                }
+              },
+              {
+                "source": {
+                  "name": "new_purview_classification",
+                  "type": "Boolean"
+                },
+                "sink": {
+                  "name": "new_purview_classification",
+                  "physicalType": "boolean"
+                }
+              },
+              {
+                "source": {
+                  "name": "new_selected",
+                  "type": "Boolean"
+                },
+                "sink": {
+                  "name": "new_selected",
+                  "physicalType": "boolean"
+                }
+              },
+              {
+                "source": {
+                  "name": "new_sourcesystem",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "new_sourcesystem",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "new_suggestedtablename",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "new_suggestedtablename",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "new_tablename",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "new_tablename",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "new_tabletype",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "new_tabletype",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "overriddencreatedon",
+                  "type": "DateTime"
+                },
+                "sink": {
+                  "name": "overriddencreatedon",
+                  "physicalType": "timestamp"
+                }
+              },
+              {
+                "source": {
+                  "name": "owneridname",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "owneridname",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "owneridtype",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "owneridtype",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "owneridyominame",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "owneridyominame",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "owningbusinessunitname",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "owningbusinessunitname",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "statecode",
+                  "type": "Int32"
+                },
+                "sink": {
+                  "name": "statecode",
+                  "physicalType": "integer"
+                }
+              },
+              {
+                "source": {
+                  "name": "statuscode",
+                  "type": "Int32"
+                },
+                "sink": {
+                  "name": "statuscode",
+                  "physicalType": "integer"
+                }
+              },
+              {
+                "source": {
+                  "name": "timezoneruleversionnumber",
+                  "type": "Int32"
+                },
+                "sink": {
+                  "name": "timezoneruleversionnumber",
+                  "physicalType": "integer"
+                }
+              },
+              {
+                "source": {
+                  "name": "utcconversiontimezonecode",
+                  "type": "Int32"
+                },
+                "sink": {
+                  "name": "utcconversiontimezonecode",
+                  "physicalType": "integer"
+                }
+              },
+              {
+                "source": {
+                  "name": "versionnumber",
+                  "type": "Int64"
+                },
+                "sink": {
+                  "name": "versionnumber",
+                  "physicalType": "long"
+                }
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "Copy data1_copy1",
+        "type": "Copy",
+        "state": "Inactive",
+        "onInactiveMarkAs": "Succeeded",
+        "dependsOn": [],
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "typeProperties": {
+          "source": {
+            "type": "CommonDataServiceForAppsSource",
+            "datasetSettings": {
+              "annotations": [],
+              "type": "CommonDataServiceForAppsEntity",
+              "schema": [],
+              "typeProperties": {
+                "entityName": "new_dqtableselectionmaster"
+              },
+              "externalReferences": {
+                "connection": "825754b4-bd87-4c6f-9c21-23ae9921cc2b"
+              }
+            }
+          },
+          "sink": {
+            "type": "AzureSqlSink",
+            "writeBehavior": "upsert",
+            "upsertSettings": {
+              "useTempDB": false,
+              "keys": [
+                "new_no"
+              ]
+            },
+            "sqlWriterUseTableLock": false,
+            "tableOption": "autoCreate",
+            "disableMetricsCollection": false,
+            "datasetSettings": {
+              "annotations": [],
+              "type": "AzureSqlTable",
+              "schema": [],
+              "typeProperties": {
+                "schema": "D365",
+                "table": "Testing_PowerAutomate",
+                "database": "MDM_Bronze_Layer"
+              },
+              "externalReferences": {
+                "connection": "042b76bd-48fd-4ec6-b318-f22f0310d72f"
+              }
+            }
+          },
+          "enableStaging": false,
+          "translator": {
+            "type": "TabularTranslator",
+            "mappings": [
+              {
+                "source": {
+                  "name": "createdbyname",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "createdbyname",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "createdbyyominame",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "createdbyyominame",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "createdon",
+                  "type": "DateTime"
+                },
+                "sink": {
+                  "name": "createdon",
+                  "physicalType": "timestamp"
+                }
+              },
+              {
+                "source": {
+                  "name": "createdonbehalfbyname",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "createdonbehalfbyname",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "createdonbehalfbyyominame",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "createdonbehalfbyyominame",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "importsequencenumber",
+                  "type": "Int32"
+                },
+                "sink": {
+                  "name": "importsequencenumber",
+                  "physicalType": "integer"
+                }
+              },
+              {
+                "source": {
+                  "name": "modifiedbyname",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "modifiedbyname",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "modifiedbyyominame",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "modifiedbyyominame",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "modifiedon",
+                  "type": "DateTime"
+                },
+                "sink": {
+                  "name": "modifiedon",
+                  "physicalType": "timestamp"
+                }
+              },
+              {
+                "source": {
+                  "name": "modifiedonbehalfbyname",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "modifiedonbehalfbyname",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "modifiedonbehalfbyyominame",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "modifiedonbehalfbyyominame",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "new_description",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "new_description",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "new_no",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "new_no",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "new_purview_business_glossary",
+                  "type": "Boolean"
+                },
+                "sink": {
+                  "name": "new_purview_business_glossary",
+                  "physicalType": "boolean"
+                }
+              },
+              {
+                "source": {
+                  "name": "new_purview_cde",
+                  "type": "Boolean"
+                },
+                "sink": {
+                  "name": "new_purview_cde",
+                  "physicalType": "boolean"
+                }
+              },
+              {
+                "source": {
+                  "name": "new_purview_classification",
+                  "type": "Boolean"
+                },
+                "sink": {
+                  "name": "new_purview_classification",
+                  "physicalType": "boolean"
+                }
+              },
+              {
+                "source": {
+                  "name": "new_selected",
+                  "type": "Boolean"
+                },
+                "sink": {
+                  "name": "new_selected",
+                  "physicalType": "boolean"
+                }
+              },
+              {
+                "source": {
+                  "name": "new_sourcesystem",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "new_sourcesystem",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "new_suggestedtablename",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "new_suggestedtablename",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "new_tablename",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "new_tablename",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "new_tabletype",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "new_tabletype",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "overriddencreatedon",
+                  "type": "DateTime"
+                },
+                "sink": {
+                  "name": "overriddencreatedon",
+                  "physicalType": "timestamp"
+                }
+              },
+              {
+                "source": {
+                  "name": "owneridname",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "owneridname",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "owneridtype",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "owneridtype",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "owneridyominame",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "owneridyominame",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "owningbusinessunitname",
+                  "type": "String"
+                },
+                "sink": {
+                  "name": "owningbusinessunitname",
+                  "physicalType": "string"
+                }
+              },
+              {
+                "source": {
+                  "name": "statecode",
+                  "type": "Int32"
+                },
+                "sink": {
+                  "name": "statecode",
+                  "physicalType": "integer"
+                }
+              },
+              {
+                "source": {
+                  "name": "statuscode",
+                  "type": "Int32"
+                },
+                "sink": {
+                  "name": "statuscode",
+                  "physicalType": "integer"
+                }
+              },
+              {
+                "source": {
+                  "name": "timezoneruleversionnumber",
+                  "type": "Int32"
+                },
+                "sink": {
+                  "name": "timezoneruleversionnumber",
+                  "physicalType": "integer"
+                }
+              },
+              {
+                "source": {
+                  "name": "utcconversiontimezonecode",
+                  "type": "Int32"
+                },
+                "sink": {
+                  "name": "utcconversiontimezonecode",
+                  "physicalType": "integer"
+                }
+              },
+              {
+                "source": {
+                  "name": "versionnumber",
+                  "type": "Int64"
+                },
+                "sink": {
+                  "name": "versionnumber",
+                  "physicalType": "long"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "LKID": {
+        "type": "string",
+        "defaultValue": "efb5676a-d439-4d96-a9ea-abc3fd926d45"
+      }
+    }
+  }
+}
