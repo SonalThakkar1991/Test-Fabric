@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Environment",
+    "displayName": "New API Environment",
+    "description": "This is a new environment created from API"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "439bdb2b-2975-9723-4db7-4d263c28a419"
+  }
+}
