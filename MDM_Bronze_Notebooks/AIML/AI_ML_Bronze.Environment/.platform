@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Environment",
+    "displayName": "AI_ML_Bronze",
+    "description": "Environment"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "bdced7f2-b0a5-9632-4dd0-8c10dfa3de81"
+  }
+}
