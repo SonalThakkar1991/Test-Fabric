@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "PL_Load_Data_Quality_status_Notebook"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "5be5ded6-fd2c-b5a8-4a4a-cccb72c3424d"
+  }
+}

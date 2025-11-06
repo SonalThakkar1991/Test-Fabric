@@ -1,0 +1,29 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-IN
+	dataAccessOptions
+		fastCombine
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["Audit_Table_Pass and Failed Records","bronze_audit_mdm_tables","Table_Location","Passed Tables List","Source System"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBIDesktopVersion = 2.145.1602.0 (25.07)+10647c9fa319b5e39936cdb21328038c371d1fe4
+
+ref table DateTableTemplate_46be7d06-8673-48de-aae8-6fd843a865aa
+ref table 'Audit_Table_Pass and Failed Records'
+ref table bronze_audit_mdm_tables
+ref table Table_Location
+ref table 'Passed Tables List'
+ref table LocalDateTable_05e30159-12c8-40ff-a39c-0cb60bc01135
+ref table Measure
+ref table LocalDateTable_bb92c2cf-5370-43be-b767-abd792ff79b3
+ref table LocalDateTable_893aacf7-bb01-4aa4-bcf7-85b878a08bd4
+ref table 'Source System'
+ref table LocalDateTable_b768c90c-53ae-46fc-93fa-699a835ee5b0
+
+ref cultureInfo en-US
+

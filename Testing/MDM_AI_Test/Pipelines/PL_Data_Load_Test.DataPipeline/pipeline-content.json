@@ -1,0 +1,51 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "name": "Data_Load",
+        "type": "Copy",
+        "state": "Inactive",
+        "onInactiveMarkAs": "Succeeded",
+        "dependsOn": [],
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "typeProperties": {
+          "source": {},
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "OverwriteSchema",
+            "partitionOption": "None",
+            "applyVOrder": true,
+            "datasetSettings": {
+              "annotations": [],
+              "linkedService": {
+                "name": "MDM_AI_Demo_Lakehouse_test1",
+                "properties": {
+                  "annotations": [],
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "290f6b06-3796-4928-9d58-f562fd0bfecd",
+                    "artifactId": "9e57a846-976e-4981-9cc0-9cc4380d26eb",
+                    "rootFolder": "Tables"
+                  }
+                }
+              },
+              "type": "LakehouseTable",
+              "schema": [],
+              "typeProperties": {
+                "schema": "Netforum_Test",
+                "table": "bronze_co_individual"
+              }
+            }
+          },
+          "enableStaging": false
+        }
+      }
+    ]
+  }
+}

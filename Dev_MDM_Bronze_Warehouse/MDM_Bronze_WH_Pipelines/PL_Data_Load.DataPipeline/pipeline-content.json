@@ -1,0 +1,993 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "name": "LK_WH",
+        "type": "Copy",
+        "state": "Inactive",
+        "onInactiveMarkAs": "Succeeded",
+        "dependsOn": [],
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "typeProperties": {
+          "source": {
+            "type": "LakehouseTableSource",
+            "datasetSettings": {
+              "annotations": [],
+              "linkedService": {
+                "name": "MDM_Bronze_Layer",
+                "properties": {
+                  "annotations": [],
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "290f6b06-3796-4928-9d58-f562fd0bfecd",
+                    "artifactId": "efb5676a-d439-4d96-a9ea-abc3fd926d45",
+                    "rootFolder": "Tables"
+                  }
+                }
+              },
+              "type": "LakehouseTable",
+              "schema": [],
+              "typeProperties": {
+                "schema": "dbo",
+                "table": "Unified_Address_API_Response"
+              }
+            }
+          },
+          "sink": {
+            "type": "DataWarehouseSink",
+            "allowCopyCommand": true,
+            "copyCommandSettings": {},
+            "tableOption": "autoCreate",
+            "datasetSettings": {
+              "annotations": [],
+              "linkedService": {
+                "name": "MDM_Bronze_WH",
+                "properties": {
+                  "annotations": [],
+                  "type": "DataWarehouse",
+                  "typeProperties": {
+                    "endpoint": "3klz7u5s3oqebfsrqkpjercbge-azvq6kmwg4uethky6vrp2c76zu.datawarehouse.fabric.microsoft.com",
+                    "artifactId": "861e3467-a852-4f31-a673-821e9985e030",
+                    "workspaceId": "290f6b06-3796-4928-9d58-f562fd0bfecd"
+                  }
+                }
+              },
+              "type": "DataWarehouseTable",
+              "schema": [],
+              "typeProperties": {
+                "schema": "dbo",
+                "table": "address_suggestion"
+              }
+            }
+          },
+          "enableStaging": true,
+          "translator": {
+            "type": "TabularTranslator",
+            "mappings": [
+              {
+                "source": {
+                  "name": "Source_System",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "Source_System",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "cst_key",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "cst_key",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "input_city",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "input_city",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "input_country",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "input_country",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "input_state",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "input_state",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "input_street1",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "input_street1",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "input_street2",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "input_street2",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "input_zip",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "input_zip",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "suggested_Address_Validation_Status",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "suggested_Address_Validation_Status",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "suggested_carrier_facility",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "suggested_carrier_facility",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "suggested_city",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "suggested_city",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "suggested_company",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "suggested_company",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "suggested_country",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "suggested_country",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "suggested_created_at",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "suggested_created_at",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "suggested_email",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "suggested_email",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "suggested_federal_tax_id",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "suggested_federal_tax_id",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "suggested_id",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "suggested_id",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "suggested_mode",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "suggested_mode",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "suggested_name",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "suggested_name",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "suggested_object",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "suggested_object",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "suggested_phone",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "suggested_phone",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "suggested_residential",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "suggested_residential",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "suggested_state",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "suggested_state",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "suggested_state_tax_id",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "suggested_state_tax_id",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "suggested_street1",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "suggested_street1",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "suggested_street2",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "suggested_street2",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "suggested_updated_at",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "suggested_updated_at",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "suggested_verifications_delivery_details_latitude",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "suggested_verifications_delivery_details_latitude",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "suggested_verifications_delivery_details_longitude",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "suggested_verifications_delivery_details_longitude",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "suggested_verifications_delivery_details_time_zone",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "suggested_verifications_delivery_details_time_zone",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "suggested_verifications_delivery_errors",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "suggested_verifications_delivery_errors",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "suggested_verifications_delivery_success",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "suggested_verifications_delivery_success",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "suggested_verifications_zip4_details",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "suggested_verifications_zip4_details",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "suggested_verifications_zip4_errors",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "suggested_verifications_zip4_errors",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "suggested_verifications_zip4_success",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "suggested_verifications_zip4_success",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "suggested_zip",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "suggested_zip",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "Status",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "Status",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "GUID",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "GUID",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "created_on",
+                  "type": "DateTime",
+                  "physicalType": "timestamp"
+                },
+                "sink": {
+                  "name": "created_on",
+                  "physicalType": "datetime2",
+                  "precision": 6
+                }
+              },
+              {
+                "source": {
+                  "name": "created_by",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "created_by",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "modified_on",
+                  "type": "DateTime",
+                  "physicalType": "timestamp"
+                },
+                "sink": {
+                  "name": "modified_on",
+                  "physicalType": "datetime2",
+                  "precision": 6
+                }
+              },
+              {
+                "source": {
+                  "name": "modified_by",
+                  "type": "String",
+                  "physicalType": "string"
+                },
+                "sink": {
+                  "name": "modified_by",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              }
+            ],
+            "typeConversion": true,
+            "typeConversionSettings": {
+              "allowDataTruncation": true,
+              "treatBooleanAsNumber": false
+            }
+          }
+        }
+      },
+      {
+        "name": "Data_Load",
+        "type": "Copy",
+        "state": "Inactive",
+        "onInactiveMarkAs": "Succeeded",
+        "dependsOn": [],
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "typeProperties": {
+          "source": {
+            "type": "LakehouseTableSource",
+            "datasetSettings": {
+              "annotations": [],
+              "linkedService": {
+                "name": "MDM_Bronze_Layer",
+                "properties": {
+                  "annotations": [],
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "290f6b06-3796-4928-9d58-f562fd0bfecd",
+                    "artifactId": "efb5676a-d439-4d96-a9ea-abc3fd926d45",
+                    "rootFolder": "Tables"
+                  }
+                }
+              },
+              "type": "LakehouseTable",
+              "schema": [],
+              "typeProperties": {
+                "schema": "dbo",
+                "table": "Unified_Address_API_Response"
+              }
+            }
+          },
+          "sink": {
+            "type": "DataWarehouseSink",
+            "allowCopyCommand": true,
+            "copyCommandSettings": {},
+            "tableOption": "autoCreate",
+            "datasetSettings": {
+              "annotations": [],
+              "linkedService": {
+                "name": "d33a2cc2_24ae_4ca8_9894_703ea05884e3",
+                "properties": {
+                  "annotations": [],
+                  "type": "DataWarehouse",
+                  "typeProperties": {
+                    "endpoint": "3klz7u5s3oqebfsrqkpjercbge-azvq6kmwg4uethky6vrp2c76zu.datawarehouse.fabric.microsoft.com",
+                    "artifactId": "@pipeline().parameters.WH_ID",
+                    "workspaceId": "290f6b06-3796-4928-9d58-f562fd0bfecd"
+                  }
+                }
+              },
+              "type": "DataWarehouseTable",
+              "schema": [],
+              "typeProperties": {
+                "schema": "dbo",
+                "table": "validation_suggestion"
+              }
+            }
+          },
+          "enableStaging": true,
+          "translator": {
+            "type": "TabularTranslator",
+            "typeConversion": true,
+            "typeConversionSettings": {
+              "allowDataTruncation": true,
+              "treatBooleanAsNumber": false
+            }
+          }
+        }
+      },
+      {
+        "name": "Copy data2",
+        "type": "Copy",
+        "state": "Inactive",
+        "onInactiveMarkAs": "Succeeded",
+        "dependsOn": [],
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "typeProperties": {
+          "source": {
+            "type": "LakehouseTableSource",
+            "datasetSettings": {
+              "annotations": [],
+              "linkedService": {
+                "name": "MDM_Bronze_Layer",
+                "properties": {
+                  "annotations": [],
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "290f6b06-3796-4928-9d58-f562fd0bfecd",
+                    "artifactId": "efb5676a-d439-4d96-a9ea-abc3fd926d45",
+                    "rootFolder": "Tables"
+                  }
+                }
+              },
+              "type": "LakehouseTable",
+              "schema": [],
+              "typeProperties": {
+                "schema": "dbo",
+                "table": "Unified_Address_API_Response"
+              }
+            }
+          },
+          "sink": {
+            "type": "DataWarehouseSink",
+            "allowCopyCommand": true,
+            "copyCommandSettings": {},
+            "tableOption": "autoCreate",
+            "datasetSettings": {
+              "annotations": [],
+              "linkedService": {
+                "name": "MDM_Bronze_WH",
+                "properties": {
+                  "annotations": [],
+                  "type": "DataWarehouse",
+                  "typeProperties": {
+                    "endpoint": "3klz7u5s3oqebfsrqkpjercbge-azvq6kmwg4uethky6vrp2c76zu.datawarehouse.fabric.microsoft.com",
+                    "artifactId": "861e3467-a852-4f31-a673-821e9985e030",
+                    "workspaceId": "290f6b06-3796-4928-9d58-f562fd0bfecd"
+                  }
+                }
+              },
+              "type": "DataWarehouseTable",
+              "schema": [],
+              "typeProperties": {
+                "schema": "dbo",
+                "table": "address_suggestion"
+              }
+            }
+          },
+          "enableStaging": false
+        }
+      },
+      {
+        "name": "Data_Transfer",
+        "type": "Copy",
+        "dependsOn": [],
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "queryTimeout": "02:00:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "annotations": [],
+              "type": "AzureSqlTable",
+              "schema": [],
+              "typeProperties": {
+                "schema": "Bronze",
+                "table": "Employee_Merge_Suggestions",
+                "database": "MDM_Bronze_Lakehouse"
+              },
+              "externalReferences": {
+                "connection": "a86c6fb4-34f4-40f6-82dc-e06ba4ec578b"
+              }
+            }
+          },
+          "sink": {
+            "type": "DataWarehouseSink",
+            "allowCopyCommand": true,
+            "copyCommandSettings": {},
+            "tableOption": "autoCreate",
+            "datasetSettings": {
+              "annotations": [],
+              "linkedService": {
+                "name": "0d4df2f4_ac07_4e6c_98aa_f63e7b2b793e",
+                "properties": {
+                  "annotations": [],
+                  "type": "DataWarehouse",
+                  "typeProperties": {
+                    "endpoint": "3klz7u5s3oqebfsrqkpjercbge-azvq6kmwg4uethky6vrp2c76zu.datawarehouse.fabric.microsoft.com",
+                    "artifactId": "@pipeline().parameters.WH_ID",
+                    "workspaceId": "290f6b06-3796-4928-9d58-f562fd0bfecd"
+                  }
+                }
+              },
+              "type": "DataWarehouseTable",
+              "schema": [],
+              "typeProperties": {
+                "schema": "dbo",
+                "table": "sales_representative_suggestion _1"
+              }
+            }
+          },
+          "enableStaging": true,
+          "translator": {
+            "type": "TabularTranslator",
+            "mappings": [
+              {
+                "source": {
+                  "name": "TERRITORY",
+                  "type": "Int64",
+                  "physicalType": "bigint"
+                },
+                "sink": {
+                  "name": "TERRITORY",
+                  "physicalType": "bigint"
+                }
+              },
+              {
+                "source": {
+                  "name": "TERRITORY_REP_FK",
+                  "type": "Int64",
+                  "physicalType": "bigint"
+                },
+                "sink": {
+                  "name": "TERRITORY_REP_FK",
+                  "physicalType": "bigint"
+                }
+              },
+              {
+                "source": {
+                  "name": "SALES_REP",
+                  "type": "String",
+                  "physicalType": "nvarchar",
+                  "length": "MAX"
+                },
+                "sink": {
+                  "name": "SALES_REP",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "TERR_CWID",
+                  "type": "String",
+                  "physicalType": "nvarchar",
+                  "length": "MAX"
+                },
+                "sink": {
+                  "name": "TERR_CWID",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "Sales_Rep_id",
+                  "type": "Int32",
+                  "physicalType": "int"
+                },
+                "sink": {
+                  "name": "Sales_Rep_id",
+                  "physicalType": "int"
+                }
+              },
+              {
+                "source": {
+                  "name": "match_score",
+                  "type": "Int32",
+                  "physicalType": "int"
+                },
+                "sink": {
+                  "name": "match_score",
+                  "physicalType": "int"
+                }
+              },
+              {
+                "source": {
+                  "name": "Employee_Email",
+                  "type": "String",
+                  "physicalType": "nvarchar",
+                  "length": "MAX"
+                },
+                "sink": {
+                  "name": "Employee_Email",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "Position_Title",
+                  "type": "String",
+                  "physicalType": "nvarchar",
+                  "length": "MAX"
+                },
+                "sink": {
+                  "name": "Position_Title",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "Selected",
+                  "type": "Boolean",
+                  "physicalType": "bit"
+                },
+                "sink": {
+                  "name": "Selected",
+                  "physicalType": "bit"
+                }
+              },
+              {
+                "source": {
+                  "name": "Status",
+                  "type": "String",
+                  "physicalType": "nvarchar",
+                  "length": "MAX"
+                },
+                "sink": {
+                  "name": "Status",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "GUID",
+                  "type": "String",
+                  "physicalType": "nvarchar",
+                  "length": "MAX"
+                },
+                "sink": {
+                  "name": "GUID",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "created_on",
+                  "type": "DateTime",
+                  "physicalType": "datetime2",
+                  "precision": 6
+                },
+                "sink": {
+                  "name": "created_on",
+                  "physicalType": "datetime2",
+                  "precision": 6
+                }
+              },
+              {
+                "source": {
+                  "name": "created_by",
+                  "type": "String",
+                  "physicalType": "nvarchar",
+                  "length": "MAX"
+                },
+                "sink": {
+                  "name": "created_by",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              },
+              {
+                "source": {
+                  "name": "modified_on",
+                  "type": "DateTime",
+                  "physicalType": "datetime2",
+                  "precision": 6
+                },
+                "sink": {
+                  "name": "modified_on",
+                  "physicalType": "datetime2",
+                  "precision": 6
+                }
+              },
+              {
+                "source": {
+                  "name": "modified_by",
+                  "type": "String",
+                  "physicalType": "nvarchar",
+                  "length": "MAX"
+                },
+                "sink": {
+                  "name": "modified_by",
+                  "physicalType": "varchar",
+                  "length": "8000"
+                }
+              }
+            ],
+            "typeConversion": true,
+            "typeConversionSettings": {
+              "allowDataTruncation": true,
+              "treatBooleanAsNumber": false
+            }
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "WH_ID": {
+        "type": "string",
+        "defaultValue": "861e3467-a852-4f31-a673-821e9985e030"
+      }
+    }
+  }
+}

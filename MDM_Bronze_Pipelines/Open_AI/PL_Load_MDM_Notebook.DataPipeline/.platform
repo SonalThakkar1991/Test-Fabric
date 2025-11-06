@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "PL_Load_MDM_Notebook"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "cd05d398-fd50-9c23-47e3-59101c34473e"
+  }
+}

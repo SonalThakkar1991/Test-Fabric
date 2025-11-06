@@ -1,0 +1,219 @@
+table bronze_audit_mdm_tables
+	lineageTag: 8f310208-21c5-47ee-b5d6-2a9ed36c8033
+
+	column Source_System
+		dataType: string
+		lineageTag: 45e4434c-8338-43b4-b72a-285bf5d2b484
+		summarizeBy: none
+		sourceColumn: Source_System
+
+		annotation SummarizationSetBy = Automatic
+
+	column Table_Name
+		dataType: string
+		lineageTag: 35e7b196-c733-402a-8fa4-8ae639b42b78
+		summarizeBy: none
+		sourceColumn: Table_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column_Name
+		dataType: string
+		lineageTag: 1e062d6f-78a6-4b5f-9c1d-f04c56cdddce
+		summarizeBy: none
+		sourceColumn: Column_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column AI_ColumnName
+		dataType: string
+		lineageTag: 58338d3f-675d-44cb-bb86-2791594a9629
+		summarizeBy: none
+		sourceColumn: AI_ColumnName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Index_Value
+		dataType: string
+		lineageTag: 7b5e059f-5e3c-43bf-9f32-99ebf2f37e5a
+		summarizeBy: none
+		sourceColumn: Index_Value
+
+		annotation SummarizationSetBy = Automatic
+
+	column validation_rules
+		dataType: string
+		lineageTag: 97aa08bd-b6e7-4e94-8e3e-9fde92ae3170
+		summarizeBy: none
+		sourceColumn: validation_rules
+
+		annotation SummarizationSetBy = Automatic
+
+	column Val_Description
+		dataType: string
+		lineageTag: bf1a6961-f4bc-4161-a2c3-18da93b10cfd
+		summarizeBy: none
+		sourceColumn: Val_Description
+
+		annotation SummarizationSetBy = Automatic
+
+	column Index_Key
+		dataType: string
+		lineageTag: 7612b5a9-f23b-4c8a-9582-a740784b6d6e
+		summarizeBy: none
+		sourceColumn: Index_Key
+
+		annotation SummarizationSetBy = Automatic
+
+	column Failed_Value
+		dataType: string
+		lineageTag: 4904a284-71fe-4779-9109-be16d7a27146
+		summarizeBy: none
+		sourceColumn: Failed_Value
+
+		annotation SummarizationSetBy = Automatic
+
+	column LoadTime_UTC
+		dataType: string
+		lineageTag: a9ff476f-6d6f-4d59-972d-89409e169264
+		summarizeBy: none
+		sourceColumn: LoadTime_UTC
+
+		annotation SummarizationSetBy = Automatic
+
+	column LoadTime_PST
+		dataType: string
+		lineageTag: 35310589-332e-4cb7-a4d7-854eb4106533
+		summarizeBy: none
+		sourceColumn: LoadTime_PST
+
+		annotation SummarizationSetBy = Automatic
+
+	column ai_reasoning_old
+		dataType: string
+		lineageTag: 155aa171-6ce6-405d-a6e4-1362de629291
+		summarizeBy: none
+		sourceColumn: ai_reasoning_old
+
+		annotation SummarizationSetBy = Automatic
+
+	column Axis_Label =
+			
+			IF(
+			    NOT(ISBLANK(bronze_audit_mdm_tables[ai_reasoning])),
+			 bronze_audit_mdm_tables[AIColumnname] & UNICHAR(10) & "( " & bronze_audit_mdm_tables[ai_reasoning] & " ) ",
+			   bronze_audit_mdm_tables[AIColumnname]
+			)
+		lineageTag: 424e2da8-939d-425a-90af-38a4832da100
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column LoadDatetime = FORMAT(bronze_audit_mdm_tables[LoadTime_PST],"dd-mmm")
+		lineageTag: 8e625f5e-ac6a-4c6b-ac19-066f38b5161f
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Dynamic_table_axis = CONCATENATE("Total Passed and Failed Records by ",  bronze_audit_mdm_tables[Table_Name])
+		lineageTag: 4b75ff78-edb8-482b-871c-0b7a9dbefc52
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column LoadDate =
+			
+			DATEVALUE(
+			    LEFT(bronze_audit_mdm_tables[LoadTime_PST], 10)
+			)
+		formatString: Short Date
+		lineageTag: 83a4dd59-3190-4976-8ba6-0da78a614cc7
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: ce0da1b8-6500-4af6-8051-916de2ea7595
+			defaultHierarchy: LocalDateTable_bb92c2cf-5370-43be-b767-abd792ff79b3.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column TableName = ```
+			
+			RIGHT(bronze_audit_mdm_tables[Table_Name], LEN(bronze_audit_mdm_tables[Table_Name]) - FIND("_", bronze_audit_mdm_tables[Table_Name]))
+			
+			```
+		lineageTag: dadbfec9-1917-48f8-a77a-3a0b3af08cf5
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Business Validation Name' =
+			SWITCH(bronze_audit_mdm_tables[validation_rules],
+			
+			"expect_column_values_to_not_be_null" ,"Required Field (Cannot be blank)",
+			"expect_column_values_to_be_null","Should Be Blank",
+			"expect_column_values_to_be_unique","Each Value Must Be Unique",
+			"expect_column_values_to_match_regex","Value Must Follow Expected Format",
+			"expect_column_values_to_be_in_set","Value Must Be From Approved List",
+			"Be Unique","Each Value Must Be Unique",
+			"Match Regex","Value Must Follow Expected Format")
+		lineageTag: fadee0bc-56a6-450f-ba81-dee19a7f6300
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: dd-mm-yyyy
+		lineageTag: 19c26647-1ca0-4856-85fb-d07f0b79eefe
+		summarizeBy: none
+		sourceColumn: Date
+
+		variation Variation
+			isDefault
+			relationship: 28fca442-824f-453d-8a3f-b83309925ef5
+			defaultHierarchy: LocalDateTable_b768c90c-53ae-46fc-93fa-699a835ee5b0.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column ai_reasoning =
+			IF(bronze_audit_mdm_tables[Column_Name] = "Expiry_Date","Expiry Date must follow a specific pattern.",
+			IF(bronze_audit_mdm_tables[Column_Name] ="CUSTOMERACCOUNTNUMBER","Customer Account Number must be unique for Each Value.",bronze_audit_mdm_tables[ai_reasoning_old] ))
+		lineageTag: 48fedddd-d1e3-4f98-a255-795cacd6fbdb
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column AIColumnname =
+			IF(bronze_audit_mdm_tables[Column_Name] = "CUSTOMERACCOUNTNUMBER","Account Number",
+			IF(bronze_audit_mdm_tables[Column_Name] = "Expiry_Date","Expiry Date",bronze_audit_mdm_tables[AI_ColumnName]))
+		lineageTag: d26c00fc-d0a8-4a10-9b58-6c53ca977fa7
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition bronze_audit_mdm_tables = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("3klz7u5s3oqebfsrqkpjercbge-azvq6kmwg4uethky6vrp2c76zu.datawarehouse.fabric.microsoft.com", "MDM_Bronze_Layer"),
+				    D365_data_quality_audit_table = Source{[Schema="D365",Item="data_quality_audit_table"]}[Data],
+				    #"Duplicated Column" = Table.DuplicateColumn(D365_data_quality_audit_table, "LoadTime_PST", "LoadTime_PST - Copy"),
+				    #"Renamed Columns" = Table.RenameColumns(#"Duplicated Column",{{"LoadTime_PST - Copy", "Date"}}),
+				    #"Extracted Text Before Delimiter" = Table.TransformColumns(#"Renamed Columns", {{"Date", each Text.BeforeDelimiter(_, " "), type text}}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Extracted Text Before Delimiter",{{"Date", type date}}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Changed Type",{{"Index_Key", "Index_Value"}, {"Index_Value", "Index_Key"}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Renamed Columns1","SAP_Customer_Data","customer",Replacer.ReplaceText,{"Table_Name"}),
+				    #"Filtered Rows" = Table.SelectRows(#"Replaced Value", each ([Table_Name] <> "mserp_custtransbientity")),
+				    #"Renamed Columns2" = Table.RenameColumns(#"Filtered Rows",{{"ai_reasoning", "ai_reasoning_old"}})
+				in
+				    #"Renamed Columns2"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

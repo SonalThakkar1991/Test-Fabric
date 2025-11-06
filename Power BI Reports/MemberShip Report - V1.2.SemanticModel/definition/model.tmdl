@@ -1,0 +1,45 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["Measaure","Current time","Silver_Membership_V1","Year","Month","Membership_dashboard_data"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBIDesktopVersion = 2.146.705.0 (25.08)+b71502aff0a01340c88f384884ef42771068f115
+
+ref table DateTableTemplate_464401a9-4672-4a97-8b77-14a8b3710532
+ref table Measaure
+ref table 'Current time'
+ref table LocalDateTable_082717c1-8a5b-4999-8b60-4285e9952182
+ref table Membership_dashboard_data
+ref table LocalDateTable_14116bee-723f-43d5-91d3-b00050c72b0b
+ref table LocalDateTable_5b4f7569-e691-4992-b9f7-a7a6ffcf37a9
+ref table LocalDateTable_dce1e997-bd22-4a74-ab06-51583dd83083
+ref table LocalDateTable_83041605-179a-4bfb-a0ff-7e64abe8d1b2
+ref table LocalDateTable_b30359de-3183-48ef-b51a-0310d3fd1e86
+ref table LocalDateTable_2550e327-de43-4b81-bbcb-874c4187dd45
+ref table LocalDateTable_7976688a-7a50-4fe1-94c0-7bd8e693ff7a
+ref table LocalDateTable_a64d89cd-bbf2-4d99-81a9-d01a1ee72d14
+ref table LocalDateTable_f8c79a98-efdf-4215-a837-880598274cbf
+ref table LocalDateTable_4a1bd289-2fd0-42af-9554-057bdce09016
+ref table LocalDateTable_5a2f76a1-e390-4872-8e16-1ae396e42c7a
+ref table Silver_Membership_V1
+ref table LocalDateTable_168838e1-a44a-409f-990e-f1534b3b8808
+ref table LocalDateTable_26a124e1-c334-452d-bac5-be0b562c087d
+ref table LocalDateTable_cab36d1f-1dea-4ed3-9f48-0dc464d59ada
+ref table LocalDateTable_2444de8f-58ec-41bb-8696-f28900400890
+ref table LocalDateTable_1bed3566-19f0-4a37-980e-7ac5a9a01729
+ref table LocalDateTable_5582d4c4-171e-489e-9d65-bcd46bb5a04c
+ref table LocalDateTable_81422dbe-f7ac-4b4d-84c3-a36abab9af70
+ref table LocalDateTable_2fe93918-eaf7-41d0-9d70-94898d2fd979
+ref table LocalDateTable_7913e799-c492-4087-b303-3c0778c1f930
+ref table LocalDateTable_824c3de9-40a6-4436-8a4f-eef48ea6d292
+ref table LocalDateTable_ea5ec2d5-f1f8-4fe6-be0c-042a14b83abf
+
+ref cultureInfo en-US
+

@@ -1,0 +1,78 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "name": "Copy data1",
+        "type": "Copy",
+        "dependsOn": [],
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "typeProperties": {
+          "source": {
+            "type": "AzureSqlSource",
+            "sqlReaderQuery": "select * from [MDM_Bronze_Lakehouse].[Bronze].[table_selection_master]\nwhere Table_Name in ('SAP_Customer_Data','SAP_Product_Data')",
+            "queryTimeout": "02:00:00",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "annotations": [],
+              "type": "AzureSqlTable",
+              "schema": [],
+              "typeProperties": {
+                "database": "MDM_Bronze_Lakehouse"
+              },
+              "externalReferences": {
+                "connection": "d59bce21-2c6f-4b2f-b3c7-0cdd0e19aba8"
+              }
+            }
+          },
+          "sink": {
+            "type": "LakehouseTableSink",
+            "tableActionOption": "Append",
+            "partitionOption": "None",
+            "datasetSettings": {
+              "annotations": [],
+              "linkedService": {
+                "name": "f84e4b54_b205_49e0_9e5f_9cd39dc5b686",
+                "properties": {
+                  "annotations": [],
+                  "type": "Lakehouse",
+                  "typeProperties": {
+                    "workspaceId": "290f6b06-3796-4928-9d58-f562fd0bfecd",
+                    "artifactId": "@pipeline().parameters.LKID",
+                    "rootFolder": "Tables"
+                  }
+                }
+              },
+              "type": "LakehouseTable",
+              "schema": [],
+              "typeProperties": {
+                "schema": "D365",
+                "table": "table_selection_master"
+              }
+            }
+          },
+          "enableStaging": false,
+          "translator": {
+            "type": "TabularTranslator",
+            "typeConversion": true,
+            "typeConversionSettings": {
+              "allowDataTruncation": true,
+              "treatBooleanAsNumber": false
+            }
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "LKID": {
+        "type": "string",
+        "defaultValue": "efb5676a-d439-4d96-a9ea-abc3fd926d45"
+      }
+    }
+  }
+}

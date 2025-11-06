@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "saptofabric_Transaction"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "3a11a590-632b-b3f5-42b9-b9fe0385d044"
+  }
+}

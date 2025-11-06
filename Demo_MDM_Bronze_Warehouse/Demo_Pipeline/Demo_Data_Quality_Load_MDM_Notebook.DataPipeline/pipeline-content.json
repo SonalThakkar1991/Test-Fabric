@@ -1,0 +1,92 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "6f3c1dd9-bf4e-8966-41cf-b739a44c8ae7",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "sessionTag": "DQSession"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Load Data Quality Step",
+        "dependsOn": []
+      },
+      {
+        "type": "Office365Outlook",
+        "typeProperties": {
+          "inputs": {
+            "body": {
+              "To": "Hardik.Vakani@dynatechconsultancy.com;Sonal.Thakkar@dynatechconsultancy.com",
+              "Subject": "MDM Data Quality Pipeline Notification : Success",
+              "Body": "<p>MDM Data Quality Pipeline Successfully Completed !!<br>\n</p>\n<p>Description :</p>\n<p>Successfully Updated !!</p>\n<p><strong>Enable Data Quality</strong></p>\n<p><strong>Data Quality Rules Summary</strong></p>\n<p><strong>Data Quality Rules Detalis</strong><br>\n</p>",
+              "Sensitivity": "",
+              "Importance": "Normal"
+            },
+            "method": "post",
+            "path": "/v2/Mail"
+          }
+        },
+        "name": "MDM Data Quality Pipeline Notification Success",
+        "dependsOn": [
+          {
+            "activity": "Load Data Quality Step",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Office365Outlook",
+        "typeProperties": {
+          "inputs": {
+            "body": {
+              "To": "Hardik.Vakani@dynatechconsultancy.com;Sonal.Thakkar@dynatechconsultancy.com",
+              "Subject": "MDM Data Quality Pipeline Notification : Failed",
+              "Body": "<p>MDM Data Quality Pipeline Got Failed.<br>\n</p>\n<p><strong>Pycode error in Notebook.</strong><br>\n</p>",
+              "Sensitivity": "",
+              "Importance": "Normal"
+            },
+            "method": "post",
+            "path": "/v2/Mail"
+          }
+        },
+        "name": "MDM Data Quality Pipeline Notification Failed",
+        "dependsOn": [
+          {
+            "activity": "Load Data Quality Step",
+            "dependencyConditions": [
+              "Failed"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "0b88109a-d5f8-4e8c-8032-92d838567ae3",
+          "workspaceId": "290f6b06-3796-4928-9d58-f562fd0bfecd",
+          "sessionTag": "DQSession"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Load CDM",
+        "state": "Inactive",
+        "onInactiveMarkAs": "Succeeded",
+        "dependsOn": []
+      }
+    ]
+  }
+}

@@ -1,0 +1,59 @@
+[
+  {
+    "uniqueIdentifier": "e466c07e-68e7-4c27-b2a9-990643375844",
+    "payload": {
+      "name": "RealTimeHub",
+      "connection": {
+        "scope": "Artifact",
+        "tenantId": "d39f97da-dbb2-40a0-9651-829e92444131",
+        "workspaceId": "290f6b06-3796-4928-9d58-f562fd0bfecd",
+        "artifactId": "d214fb5b-b840-4f94-9264-b2b5d6751039",
+        "eventGroupType": "Microsoft.Fabric.JobEvents"
+      },
+      "filterSettings": {
+        "eventTypes": [
+          {
+            "name": "Microsoft.Fabric.JobEvents.ItemJobCreated"
+          },
+          {
+            "name": "Microsoft.Fabric.JobEvents.ItemJobStatusChanged"
+          },
+          {
+            "name": "Microsoft.Fabric.JobEvents.ItemJobSucceeded"
+          },
+          {
+            "name": "Microsoft.Fabric.JobEvents.ItemJobFailed"
+          }
+        ],
+        "filters": []
+      }
+    },
+    "type": "realTimeHubSource-v1"
+  },
+  {
+    "uniqueIdentifier": "40b739b4-37f5-422b-8977-2ccfd78509b3",
+    "payload": {
+      "name": "JobEvents event",
+      "definition": {
+        "type": "Event",
+        "instance": "{\"templateId\":\"SourceEvent\",\"templateVersion\":\"1.1\",\"steps\":[{\"name\":\"SourceEventStep\",\"id\":\"6000962b-3741-4e07-b879-10a62c25f3ef\",\"rows\":[{\"name\":\"SourceSelector\",\"kind\":\"SourceReference\",\"arguments\":[{\"name\":\"entityId\",\"type\":\"string\",\"value\":\"e466c07e-68e7-4c27-b2a9-990643375844\"}]}]}]}"
+      }
+    },
+    "type": "timeSeriesView-v1"
+  },
+  {
+    "uniqueIdentifier": "9a101e3e-92d9-4032-9db2-6bb1271a538e",
+    "payload": {
+      "name": "JobEvents event alert",
+      "definition": {
+        "type": "Rule",
+        "instance": "{\"steps\":[{\"id\":\"73805467-803e-4c11-8f7c-bf8593b65644\",\"name\":\"FieldsDefaultsStep\",\"rows\":[{\"arguments\":[{\"arguments\":[{\"name\":\"entityId\",\"type\":\"string\",\"value\":\"40b739b4-37f5-422b-8977-2ccfd78509b3\"}],\"kind\":\"EventReference\",\"name\":\"event\",\"type\":\"complex\"}],\"kind\":\"Event\",\"name\":\"EventSelector\"}]},{\"id\":\"35f671bb-abf9-4c95-9dc3-37e2081e981c\",\"name\":\"EventDetectStep\",\"rows\":[{\"arguments\":[],\"kind\":\"OnEveryValue\",\"name\":\"OnEveryValue\"}]},{\"id\":\"c5817ea1-6fda-47ac-9dd4-c4801bf51897\",\"name\":\"ActStep\",\"rows\":[{\"arguments\":[{\"name\":\"messageLocale\",\"type\":\"string\",\"value\":\"en-us\"},{\"name\":\"recipients\",\"type\":\"array\",\"values\":[{\"type\":\"string\",\"value\":\"Palak.Modi@dynatechconsultancy.com\"}]},{\"name\":\"headline\",\"type\":\"array\",\"values\":[{\"type\":\"string\",\"value\":\"Activator alert JobEvents event alert\"}]},{\"name\":\"optionalMessage\",\"type\":\"array\",\"values\":[{\"type\":\"string\",\"value\":\"The condition for 'JobEvents event alert' has been met\"}]},{\"name\":\"additionalInformation\",\"type\":\"array\",\"values\":[]}],\"kind\":\"TeamsMessage\",\"name\":\"TeamsBinding\"}]}],\"templateId\":\"EventTrigger\",\"templateVersion\":\"1.2.1\"}",
+        "settings": {
+          "shouldRun": true,
+          "shouldApplyRuleOnUpdate": true
+        }
+      }
+    },
+    "type": "timeSeriesView-v1"
+  }
+]

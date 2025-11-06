@@ -1,0 +1,120 @@
+table Measure
+	lineageTag: cb3711d0-9dae-4836-a55c-b66f901dd09d
+
+	measure 'Failed Tables Count' = DISTINCTCOUNT(bronze_audit_mdm_tables[Table_Name])
+		formatString: 0
+		lineageTag: 360ba594-3bb6-4323-887a-c374188469cc
+
+	measure 'Total Table Count' = [Failed Tables Count] + [Passed Table Count]
+		formatString: 0
+		lineageTag: 185533e1-e7cf-40e4-9b3f-4f234107989d
+
+	measure 'Passed Table Count' = DISTINCTCOUNT('Passed Tables List'[Table_Name])
+		formatString: 0
+		lineageTag: e732491d-fe22-4cf5-8833-2fdcf16b9cb5
+
+	measure Total_Records_SM = CALCULATE(SUM('Audit_Table_Pass and Failed Records'[RowCount]))
+		formatString: 0
+		lineageTag: 4da6e782-30e8-4cf0-ade0-9c1cd72c2804
+
+	measure 'Failed Column Count' = DISTINCTCOUNT(bronze_audit_mdm_tables[AI_ColumnName])
+		formatString: 0
+		lineageTag: 94cd343c-4dc6-4319-b96f-3baf03728867
+
+	measure 'Passed Column Count' = DISTINCTCOUNT('Passed Tables List'[AI_ColumnName])
+		formatString: 0
+		lineageTag: ed312e5e-e5ca-48e1-921f-79bd3945176c
+
+	measure 'Total Column Count' = [Failed Column Count] + [Passed Column Count]
+		formatString: 0
+		lineageTag: e823338d-2acf-4865-9af3-75b19f7359e8
+
+	measure Data_Quality = [Total_Passed_Records]/'Audit_Table_Pass and Failed Records'[Total_Records]
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 3950156c-65e9-4f46-a319-249fac3755bf
+
+	measure Failed_Records = CALCULATE(DISTINCTCOUNT(bronze_audit_mdm_tables[Index_Key]))
+		formatString: #,0
+		lineageTag: 4c6f3661-5e4d-43ea-8bdf-05b03d785da4
+
+	measure Total_Passed_Records = 'Audit_Table_Pass and Failed Records'[Total_Records] - [Failed_Records]
+		formatString: #,0
+		lineageTag: b9e4cc5f-a788-46e6-9092-bd8b09184dbb
+
+	measure Table_Data_Quality = [Passed Table Count]/[Total Table Count]
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 9fe1c7de-9c72-40de-a815-57dd2e9d8014
+
+	measure 'Latest Count' = ```
+			
+			VAR LatestDate =
+			    CALCULATE (
+			        MAX ( 'Passed Tables List'[LoadDate_PST] ),
+			        ALLEXCEPT ( 'Passed Tables List', 'Passed Tables List'[Table_Name] )
+			    )
+			RETURN
+			    CALCULATE (
+			        MAX ( 'Passed Tables List'[Count] ),
+			        'Passed Tables List'[LoadDate_PST] = LatestDate
+			    )
+			
+			```
+		formatString: 0
+		lineageTag: 5d21a530-e74a-449d-9c14-07f374b04a41
+
+	measure 'Total Latest Count' = ```
+			
+			SUMX (
+			    SUMMARIZE (
+			        'Passed Tables List',
+			        'Passed Tables List'[Table_Name],
+			        "LatestDate", CALCULATE ( MAX ( 'Passed Tables List'[LoadDate_PST] ) )
+			    ),
+			    VAR TableName = [Table_Name]
+			    VAR LatestDate =
+			        CALCULATE (
+			            MAX ( 'Passed Tables List'[LoadDate_PST] ),
+			            'Passed Tables List'[Table_Name] = TableName
+			        )
+			    RETURN
+			        CALCULATE (
+			            MAX ( 'Passed Tables List'[Count] ),
+			            'Passed Tables List'[Table_Name] = TableName,
+			            'Passed Tables List'[LoadDate_PST] = LatestDate
+			        )
+			)
+			
+			```
+		formatString: 0
+		lineageTag: 8f808cfc-a9c6-49ba-a0b8-e31c87cde266
+
+	measure 'Fail Records' = 0
+		formatString: 0
+		lineageTag: b5e51bc7-9ae1-4c62-95e8-45123adcee79
+
+	measure 'Page Navigation' = SELECTEDVALUE('Source System'[Source System])
+		lineageTag: 71c70cf5-6a19-47cb-ab86-b30eaf637ead
+
+	measure 'Validation Rules' = DISTINCTCOUNT(bronze_audit_mdm_tables[validation_rules])
+		formatString: 0
+		lineageTag: 40fbd1db-eefd-48bf-a137-67dea8539907
+
+	column Column
+		formatString: 0
+		lineageTag: 4f1c91f0-880f-4c11-997e-1a88e2a3742e
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Measure = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = c98660c2c76d44c684f2397d9526a97a
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":null}
+
+	annotation 277cc1b9-af89-4597-8e15-cacc25c0886b = To use special characters in a calculated table name, enclose the entire name in brackets ( [] ) and add a ] to any closing brackets in the name.
+

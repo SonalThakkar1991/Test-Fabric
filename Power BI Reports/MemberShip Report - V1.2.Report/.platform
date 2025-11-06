@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "MemberShip Report - V1.2"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "41f28578-8b22-bdf3-4602-f5707de957f1"
+  }
+}

@@ -1,0 +1,46 @@
+table 'Source System'
+	lineageTag: ef34c38c-89ff-4557-85db-47e6f30fe7d0
+
+	column 'Source System'
+		dataType: string
+		lineageTag: f63f6f28-26d4-4340-9892-ecc8b880f007
+		summarizeBy: none
+		sourceColumn: Source System
+		sortByColumn: Index
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Index
+		dataType: int64
+		formatString: 0
+		lineageTag: bd450eea-d135-4b73-8fae-11f6b3092ff7
+		summarizeBy: sum
+		sourceColumn: Index
+
+		annotation SummarizationSetBy = Automatic
+
+	column URL
+		dataType: string
+		lineageTag: ae97063c-ee1e-4727-b61a-a08a91c805ee
+		dataCategory: ImageUrl
+		summarizeBy: none
+		sourceColumn: URL
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Source System' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("TcxLCoMwFIXhvWTszc3DpA+QUnABhQ6tAxujFTQJTcR2942zDg+c/2saUkutSEFeKYV4RuSMsdmPPlJnE24BjHfJuoRrmH3XRxRMcOQC66/rlslEyD3sBRz08VNKQYMbSVs05H69/cGmd3TKWDR+TdT4BfeFw9tazAWobO4DYhdAKsH1iYE4lYrLcicvQ7XZZ3isjAm9VflO2vYH", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Source System" = _t, URL = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Source System", type text}}),
+				    #"Added Index" = Table.AddIndexColumn(#"Changed Type", "Index", 1, 1, Int64.Type)
+				in
+				    #"Added Index"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

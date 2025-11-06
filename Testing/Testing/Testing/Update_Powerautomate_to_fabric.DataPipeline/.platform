@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "Update_Powerautomate_to_fabric"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "03c073f6-9cd2-8a8c-4dc1-af5cafa18690"
+  }
+}

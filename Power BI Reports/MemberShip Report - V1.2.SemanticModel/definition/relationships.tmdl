@@ -1,0 +1,115 @@
+relationship 4ba3c759-3afd-4ee5-918a-3df30b3fe1d8
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Current time'.Column1
+	toColumn: LocalDateTable_082717c1-8a5b-4999-8b60-4285e9952182.Date
+
+relationship f17f852f-81e6-417c-8040-7abaaacf8ae3
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Membership_dashboard_data.ind_dob
+	toColumn: LocalDateTable_14116bee-723f-43d5-91d3-b00050c72b0b.Date
+
+relationship 95bd8504-820c-4053-932d-452de1727bb2
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Membership_dashboard_data.mbr_join_date
+	toColumn: LocalDateTable_5b4f7569-e691-4992-b9f7-a7a6ffcf37a9.Date
+
+relationship 56d86b47-0ea8-4ad2-ba1a-0108570eab43
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Membership_dashboard_data.mbr_rejoin_date
+	toColumn: LocalDateTable_dce1e997-bd22-4a74-ab06-51583dd83083.Date
+
+relationship 4dea5b9b-962e-4a21-b927-c701aa71de2d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Membership_dashboard_data.mbr_add_date
+	toColumn: LocalDateTable_83041605-179a-4bfb-a0ff-7e64abe8d1b2.Date
+
+relationship 7ee9adc1-4af4-41db-a412-e92d97c94236
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Membership_dashboard_data.mbr_expire_date
+	toColumn: LocalDateTable_b30359de-3183-48ef-b51a-0310d3fd1e86.Date
+
+relationship 5fc2e48f-1307-4114-acae-e36aa6117c90
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Membership_dashboard_data.mbr_terminate_date
+	toColumn: LocalDateTable_2550e327-de43-4b81-bbcb-874c4187dd45.Date
+
+relationship 4a772154-6f71-4df5-95c7-bfd020513193
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Membership_dashboard_data.mbr_invoice_date
+	toColumn: LocalDateTable_7976688a-7a50-4fe1-94c0-7bd8e693ff7a.Date
+
+relationship 2a8a8fc8-d42d-43f2-b6b2-b0e2075eb737
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Membership_dashboard_data.mxi_term_start_date
+	toColumn: LocalDateTable_a64d89cd-bbf2-4d99-81a9-d01a1ee72d14.Date
+
+relationship a571ab47-ebce-4895-b4b3-1daded4ec78a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Membership_dashboard_data.mxi_term_end_date
+	toColumn: LocalDateTable_f8c79a98-efdf-4215-a837-880598274cbf.Date
+
+relationship cc86ca0d-276d-49d2-8c8f-3dfe890e7492
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Membership_dashboard_data.mxi_previous_term_start_date
+	toColumn: LocalDateTable_4a1bd289-2fd0-42af-9554-057bdce09016.Date
+
+relationship a8b71e2f-e32b-40fb-a279-40de5343e9d7
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Membership_dashboard_data.mxi_previous_term_end_date
+	toColumn: LocalDateTable_5a2f76a1-e390-4872-8e16-1ae396e42c7a.Date
+
+relationship bb68c231-fe03-4940-a8ba-6b2ae199e5c1
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Silver_Membership_V1.ind_dob
+	toColumn: LocalDateTable_168838e1-a44a-409f-990e-f1534b3b8808.Date
+
+relationship 7f355907-8078-48af-b543-3c46967183aa
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Silver_Membership_V1.mbr_join_date
+	toColumn: LocalDateTable_26a124e1-c334-452d-bac5-be0b562c087d.Date
+
+relationship 7696469c-0d04-420a-92ab-dc8344c64d13
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Silver_Membership_V1.mbr_rejoin_date
+	toColumn: LocalDateTable_cab36d1f-1dea-4ed3-9f48-0dc464d59ada.Date
+
+relationship 6224e5d1-0001-4ac0-a008-ac27d2f835c9
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Silver_Membership_V1.mbr_add_date
+	toColumn: LocalDateTable_2444de8f-58ec-41bb-8696-f28900400890.Date
+
+relationship 85414759-eb6e-4a33-bbba-12fc2cdf0dd4
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Silver_Membership_V1.mbr_expire_date
+	toColumn: LocalDateTable_1bed3566-19f0-4a37-980e-7ac5a9a01729.Date
+
+relationship 9d56a714-2a4a-4f66-80f1-7cdcd25762c7
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Silver_Membership_V1.mbr_terminate_date
+	toColumn: LocalDateTable_5582d4c4-171e-489e-9d65-bcd46bb5a04c.Date
+
+relationship 72846e33-4c04-451b-9c4b-e1fe77200086
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Silver_Membership_V1.mbr_invoice_date
+	toColumn: LocalDateTable_81422dbe-f7ac-4b4d-84c3-a36abab9af70.Date
+
+relationship f38dd811-9a08-46cd-bdac-9c47a665f38b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Silver_Membership_V1.mxi_term_start_date
+	toColumn: LocalDateTable_2fe93918-eaf7-41d0-9d70-94898d2fd979.Date
+
+relationship be31e92f-22be-46bc-9d53-44323ead31a0
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Silver_Membership_V1.mxi_term_end_date
+	toColumn: LocalDateTable_7913e799-c492-4087-b303-3c0778c1f930.Date
+
+relationship 5bfd0073-cfe4-44fe-a92f-7807d8751941
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Silver_Membership_V1.mxi_previous_term_start_date
+	toColumn: LocalDateTable_824c3de9-40a6-4436-8a4f-eef48ea6d292.Date
+
+relationship 89d4c715-de93-4a36-af54-b3421e1011e4
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Silver_Membership_V1.mxi_previous_term_end_date
+	toColumn: LocalDateTable_ea5ec2d5-f1f8-4fe6-be0c-042a14b83abf.Date
+

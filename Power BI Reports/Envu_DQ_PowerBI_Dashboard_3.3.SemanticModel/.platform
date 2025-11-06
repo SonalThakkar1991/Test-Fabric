@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Envu_DQ_PowerBI_Dashboard_3.3"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "fea062a0-86ea-a20c-4842-fcb6e13e04fa"
+  }
+}

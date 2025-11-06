@@ -1,0 +1,110 @@
+table 'Passed Tables List'
+	lineageTag: d6ff95fa-7e43-40c2-a234-a4d7a38f4c99
+
+	column Table_Name
+		dataType: string
+		lineageTag: cdf845c3-c97f-40f3-a746-f1a07db324f9
+		summarizeBy: none
+		sourceColumn: Table_Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column LoadDate_PST
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 7ccd88c9-ebcf-42ae-bbe2-96142efe2a57
+		summarizeBy: none
+		sourceColumn: LoadDate_PST
+
+		variation Variation
+			isDefault
+			relationship: 2f62e7bf-b2d5-45a2-b221-d1fb585c75f1
+			defaultHierarchy: LocalDateTable_05e30159-12c8-40ff-a39c-0cb60bc01135.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Count
+		dataType: int64
+		formatString: 0
+		lineageTag: c8265294-1a30-4a44-bb28-0f77ab6acb33
+		summarizeBy: sum
+		sourceColumn: Count
+
+		annotation SummarizationSetBy = Automatic
+
+	column validation_rule
+		dataType: string
+		lineageTag: f86c6972-7b5f-4497-ae98-cb4657fe8f8f
+		summarizeBy: none
+		sourceColumn: validation_rule
+
+		annotation SummarizationSetBy = Automatic
+
+	column AI_ColumnName
+		dataType: string
+		lineageTag: 81bc9cae-c852-43f3-8668-a563e66bcddc
+		summarizeBy: none
+		sourceColumn: AI_ColumnName
+
+		annotation SummarizationSetBy = Automatic
+
+	column AI_Reasoning
+		dataType: string
+		lineageTag: 16086a4e-bbd9-4c9b-b19d-f71663cbae4d
+		summarizeBy: none
+		sourceColumn: AI_Reasoning
+
+		annotation SummarizationSetBy = Automatic
+
+	column LoadDate =
+			
+			DATEVALUE(
+			    LEFT('Passed Tables List'[LoadDate_PST], 10)
+			)
+		formatString: Short Date
+		lineageTag: 3dbc4b70-2a15-4f22-b037-316ef3ae708f
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: 6655a532-0cab-43f0-851c-5c9dc834f96a
+			defaultHierarchy: LocalDateTable_893aacf7-bb01-4aa4-bcf7-85b878a08bd4.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Business Validation Name' =
+			SWITCH('Passed Tables List'[validation_rule],
+			
+			"expect_column_values_to_not_be_null" ,"Required Field (Cannot be blank)",
+			"expect_column_values_to_be_null","Should Be Blank",
+			"expect_column_values_to_be_unique","Each Value Must Be Unique",
+			"expect_column_values_to_match_regex","Value Must Follow Expected Format",
+			"expect_column_values_to_be_in_set","Value Must Be From Approved List",
+			"expect_column_values_to_be_between","Value Must Be Within Allowed Range")
+		lineageTag: 33fa6bc4-9402-4241-b3bc-8b0ba5a197b7
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Source_System
+		dataType: string
+		lineageTag: 861a7a6a-4c69-4694-9b80-0e4ccbf6a9de
+		summarizeBy: none
+		sourceColumn: Source_System
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Passed Tables List' = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("3klz7u5s3oqebfsrqkpjercbge-azvq6kmwg4uethky6vrp2c76zu.datawarehouse.fabric.microsoft.com", "MDM_Bronze_Layer"),
+				    D365_data_quality_passed_tables = Source{[Schema="D365",Item="data_quality_passed_tables"]}[Data],
+				    #"Replaced Value" = Table.ReplaceValue(D365_data_quality_passed_tables,"SAP_Product_Data","product",Replacer.ReplaceText,{"Table_Name"})
+				in
+				    #"Replaced Value"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

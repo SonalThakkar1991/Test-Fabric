@@ -1,0 +1,14 @@
+[
+  {
+    "name": "SAP_Customer_Data",
+    "path": "/Tables/D365",
+    "target": {
+      "type": "OneLake",
+      "oneLake": {
+        "path": "Tables/Bronze/SAP_Customer_Data",
+        "itemId": "61eadb89-0a8d-44c6-8892-0e8e0ef49a85",
+        "workspaceId": "748f6814-d554-47e6-9011-2e7b63d72c1d"
+      }
+    }
+  }
+]
